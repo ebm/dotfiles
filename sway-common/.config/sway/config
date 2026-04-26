@@ -231,8 +231,8 @@ bar {
     }
 }
 
-exec_always swaymsg 'gaps inner all set 10'
-exec_always swaymsg 'gaps outer all set 5'
+gaps inner 10
+gaps outer 5
 
 include /etc/sway/config.d/*
 include ~/.config/sway/config.d/*.conf
