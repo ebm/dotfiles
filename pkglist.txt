@@ -1,4 +1,3 @@
-# Editors and dev tools
 neovim
 stow
 ripgrep
@@ -8,24 +7,19 @@ intellij-idea-community-edition
 jdk21-openjdk
 gradle
 
-# Shell / terminal
 foot
 btop
 
-# Browsers
 librewolf-bin
 
-# Communication
 discord
 
-# Media
 mpv
 vlc-plugins-all
 imv
 gimp
 obsidian
 
-# Sway ecosystem
 sway
 swaybg
 swaylock
@@ -39,6 +33,5 @@ slurp
 brightnessctl
 mako
 
-# Misc utilities
 openssh
 wireguard-tools
