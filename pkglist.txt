@@ -1,6 +1,5 @@
 # Editors and dev tools
 neovim
-git
 stow
 ripgrep
 claude-code
