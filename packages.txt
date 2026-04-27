@@ -24,6 +24,7 @@ obsidian
 sway
 swaybg
 swaylock
+swayidle
 waybar
 wofi
 wmenu
