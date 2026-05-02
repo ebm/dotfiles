@@ -14,6 +14,13 @@ cat ~/.ssh/id_ed25519.pub | wl-copy
 Ignore wl-copy if not installed and copy manually.
 Navigate to <https://github.com/settings/keys> and paste public key in. Name accordingly.
 
+### Clone dotfiles in home directory
+```bash
+cd ~
+git clone git@github.com:ebm/dotfiles.git
+cd ~/dotfiles/
+```
+
 ### Run Install Script
 If on laptop, run this command
 ```bash
