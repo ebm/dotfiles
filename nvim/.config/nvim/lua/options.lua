@@ -76,3 +76,8 @@ vim.o.scrolloff = 15
 vim.o.confirm = true
 
 -- vim: ts=2 sts=2 sw=2 et
+
+-- Line wrapping
+vim.opt.wrap = true
+-- No breaking mid word
+vim.opt.linebreak = true
