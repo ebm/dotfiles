@@ -4,7 +4,7 @@ return {
   ---@type oil.SetupOpts
   opts = {
     view_options = {
-      show_hidden = true,
+      show_hidden = false,
     },
   },
   -- Optional dependencies
