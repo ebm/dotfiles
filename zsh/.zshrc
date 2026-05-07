@@ -20,4 +20,4 @@ ZVM_PLUGIN_PATH="$HOME/.zsh/zsh-vi-mode"
 if [[ ! -d "$ZVM_PLUGIN_PATH" ]]; then
   git clone https://github.com/jeffreytse/zsh-vi-mode "$ZVM_PLUGIN_PATH"
 fi
-source "$ZVM_PLUGIN_PATH/zsh-vi-mode.plugin.zsh
+source "$ZVM_PLUGIN_PATH/zsh-vi-mode.plugin.zsh"
