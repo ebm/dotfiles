@@ -218,30 +218,33 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command i3status
+exec_always pkill waybar; waybar
 
-    #colors {
-    #    statusline #ffffff
-    #    background #323232
-    #    inactive_workspace #32323200 #32323200 #5c5c5c
-    #}
-    colors {
-        statusline         #cdd6f4
-        background         #1e1e2e
-        separator          #45475a
-
-        focused_workspace  #cba6f7 #cba6f7 #1e1e2e
-        active_workspace   #585b70 #585b70 #cdd6f4
-        inactive_workspace #313244 #313244 #cdd6f4
-        urgent_workspace   #f38ba8 #f38ba8 #1e1e2e
-        binding_mode       #fab387 #fab387 #1e1e2e
-    }
-}
+#bar {
+#    position top
+#
+#    # When the status_command prints a new line to stdout, swaybar updates.
+#    # The default just shows the current date and time.
+#    status_command i3status
+#
+#    #colors {
+#    #    statusline #ffffff
+#    #    background #323232
+#    #    inactive_workspace #32323200 #32323200 #5c5c5c
+#    #}
+#    colors {
+#        statusline         #cdd6f4
+#        background         #1e1e2e
+#        separator          #45475a
+#
+#        focused_workspace  #cba6f7 #cba6f7 #1e1e2e
+#        active_workspace   #585b70 #585b70 #cdd6f4
+#        inactive_workspace #313244 #313244 #cdd6f4
+#        urgent_workspace   #f38ba8 #f38ba8 #1e1e2e
+#        binding_mode       #fab387 #fab387 #1e1e2e
+#    }
+#}
 
 client.focused          #cba6f7 #1e1e2e #cdd6f4 #cba6f7   #cba6f7
 client.focused_inactive #45475a #1e1e2e #a6adc8 #45475a   #45475a
