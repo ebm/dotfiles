@@ -25,8 +25,8 @@ LAPTOP_PACKAGES=(
     foot-config
     sway-common
     sway-laptop
-    i3status-laptop
     intellij
+    waybar
 )
 
 OPTIONAL_PACKAGES=(

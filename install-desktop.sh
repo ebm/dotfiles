@@ -30,8 +30,8 @@ DESKTOP_PACKAGES=(
     foot-config
     sway-common
     sway-desktop
-    i3status-desktop
     intellij
+    waybar
 )
 
 # Optional packages: stow only if directory exists
