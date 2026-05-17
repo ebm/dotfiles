@@ -15,6 +15,7 @@
         "custom/gpu-usage",
         "custom/gpu-temp",
         "memory",
+        "disk",
         "pulseaudio",
         "network",
         "clock",
@@ -62,6 +63,12 @@
         "format": " {avail:0.1f}G free",
         "tooltip-format": "{avail:0.1f}G available / {total:0.1f}G total",
         "interval": 2
+    },
+    "disk": {
+        "path": "/",
+        "format": " {free} free",
+        "tooltip-format": "{used} used / {total} total on {path}",
+        "interval": 30
     },
     "network": {
         "format-ethernet": " Ethernet",
