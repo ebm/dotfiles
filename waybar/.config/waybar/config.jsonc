@@ -9,15 +9,15 @@
     ],
     "modules-center": [],
     "modules-right": [
-        "battery",
+        "disk",
         "cpu",
         "temperature",
         "custom/gpu-usage",
         "custom/gpu-temp",
         "memory",
-        "disk",
         "pulseaudio",
         "network",
+        "battery",
         "clock",
         "tray"
     ],
@@ -98,7 +98,7 @@
         "scroll-step": 5
     },
     "clock": {
-        "format": " {:%b %d  %I:%M %p}",
+        "format": " {:%b %d %I:%M %p}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "tray": {
