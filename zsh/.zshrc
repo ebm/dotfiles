@@ -53,6 +53,13 @@ fi
 [[ -f "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
     source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
+# ls colors — use xterm-256color so dircolors always finds the color database
+# (foot supports all xterm-256color sequences; TERM=foot has no dircolors entry)
+if command -v dircolors >/dev/null 2>&1; then
+    eval "$(TERM=xterm-256color dircolors -b)"
+fi
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
+
