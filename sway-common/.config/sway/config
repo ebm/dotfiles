@@ -219,7 +219,7 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 
-exec_always pkill waybar; waybar
+exec_always pkill -SIGUSR2 waybar || (sleep 0.5 && waybar) &
 
 #bar {
 #    position top
