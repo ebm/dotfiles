@@ -50,5 +50,12 @@ for pkg in "${OPTIONAL_PACKAGES[@]}"; do
     [[ -d "$pkg" ]] && stow_package "$pkg"
 done
 
+# 5. Zsh plugins (cloned to ~/.zsh/plugins, pinned by tag)
+info "Installing zsh plugins..."
+install_zsh_plugin powerlevel10k                  https://github.com/romkatv/powerlevel10k                  v1.20.0
+install_zsh_plugin zsh-autosuggestions            https://github.com/zsh-users/zsh-autosuggestions          v0.7.1
+install_zsh_plugin zsh-history-substring-search   https://github.com/zsh-users/zsh-history-substring-search v1.1.0
+install_zsh_plugin zsh-syntax-highlighting        https://github.com/zsh-users/zsh-syntax-highlighting      0.8.0
+
 ok "Desktop install complete."
 echo

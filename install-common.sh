@@ -70,6 +70,24 @@ ensure_dirs() {
     mkdir -p ~/.config
 }
 
+# Clone a zsh plugin to ~/.zsh/plugins/<name> and pin to a git ref.
+# Idempotent: re-running with a new ref just moves the pin.
+install_zsh_plugin() {
+    local name="$1"
+    local url="$2"
+    local ref="$3"
+    local dir="$HOME/.zsh/plugins/$name"
+    if [[ ! -d "$dir/.git" ]]; then
+        info "Cloning $name..."
+        git clone --quiet "$url" "$dir"
+    else
+        info "Updating $name..."
+        git -C "$dir" fetch --quiet --tags origin
+    fi
+    info "Pinning $name to $ref"
+    git -C "$dir" checkout --quiet "$ref"
+}
+
 # Install a system file (drop-in) into /etc/ with proper ownership
 install_system_file() {
     local src="$1"
