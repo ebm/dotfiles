@@ -36,6 +36,12 @@ bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
 # fzf shell integration (Ctrl-R / Ctrl-T / Alt-C)
+# vim-style navigation: Ctrl-J/K to move, Ctrl-U/D to half-page scroll, Ctrl-/ toggles preview
+export FZF_DEFAULT_OPTS="
+  --bind 'ctrl-j:down,ctrl-k:up'
+  --bind 'ctrl-d:half-page-down,ctrl-u:half-page-up'
+  --bind 'ctrl-/:toggle-preview'
+"
 if command -v fzf >/dev/null 2>&1; then
     if fzf --zsh >/dev/null 2>&1; then
         source <(fzf --zsh)
