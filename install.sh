@@ -114,20 +114,20 @@ if [[ "$PROFILE" == minimal ]]; then
     install_github_binary \
         "neovim" \
         "neovim/neovim" \
-        "nvim-linux-x86_64\.tar\.gz$" \
+        "nvim-linux-x86_64\.tar\.gz\"" \
         "nvim"
 
     install_github_binary \
         "ripgrep" \
         "BurntSushi/ripgrep" \
-        "x86_64-unknown-linux-musl\.tar\.gz$" \
+        "x86_64-unknown-linux-musl\.tar\.gz\"" \
         "rg"
 
     install_github_binary \
-        "btop" \
-        "aristocratos/btop" \
-        "x86_64-linux-musl\.tbz$" \
-        "btop"
+        "fzf" \
+        "junegunn/fzf" \
+        "linux_amd64\.tar\.gz\"" \
+        "fzf"
 
     # 4. Stow dotfiles (only the OS-agnostic ones)
     MINIMAL_PACKAGES=(nvim zsh)

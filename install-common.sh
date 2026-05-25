@@ -168,8 +168,11 @@ ensure_node() {
 
     info "Fetching latest Node.js LTS version..."
     local version
-    version=$(curl -sfL https://nodejs.org/dist/latest-lts/SHASUMS256.txt \
-        | grep -oP 'node-v[\d.]+(?=-linux)' | head -1)
+    version=$(curl -fsSL https://nodejs.org/dist/latest-lts/SHASUMS256.txt \
+        | grep -oP 'node-v[\d.]+(?=-linux)' | head -1) || {
+        error "Failed to fetch Node.js LTS version info from nodejs.org"
+        return 1
+    }
 
     [[ -n "$version" ]] || { error "Could not determine latest Node LTS version."; return 1; }
 
@@ -185,12 +188,18 @@ ensure_node() {
     local filename="${version}-linux-${arch}.tar.xz"
 
     info "Downloading Node.js ${version} (${arch})..."
-    curl -sfL --progress-bar "https://nodejs.org/dist/latest-lts/${filename}" \
-        -o "$tmpdir/$filename"
+    curl -fSL --progress-bar "https://nodejs.org/dist/latest-lts/${filename}" \
+        -o "$tmpdir/$filename" || {
+        error "Failed to download Node.js ${version}"
+        rm -rf "$tmpdir"; return 1
+    }
 
     # The tarball is structured as a prefix tree (bin/, lib/, ...) —
     # strip the top-level versioned directory and extract straight into ~/.local
-    tar -xJf "$tmpdir/$filename" --strip-components=1 -C "$HOME/.local"
+    tar -xJf "$tmpdir/$filename" --strip-components=1 -C "$HOME/.local" || {
+        error "Failed to extract Node.js ${version} tarball"
+        rm -rf "$tmpdir"; return 1
+    }
     rm -rf "$tmpdir"
 
     ok "Node.js ${version} → ~/.local/bin"
@@ -235,10 +244,17 @@ install_github_binary() {
 
     info "Fetching latest $name release..."
     local release_json
-    release_json=$(curl -sfL "https://api.github.com/repos/$repo/releases/latest")
+    release_json=$(curl -fsSL "https://api.github.com/repos/$repo/releases/latest") || {
+        error "Failed to fetch release info for $name (https://api.github.com/repos/$repo/releases/latest)"
+        return 1
+    }
 
     local latest_tag
     latest_tag=$(printf '%s' "$release_json" | grep '"tag_name"' | head -1 | cut -d'"' -f4)
+    if [[ -z "$latest_tag" ]]; then
+        error "Could not parse release tag for $name — API response may be malformed or rate-limited"
+        return 1
+    fi
 
     local asset_url
     asset_url=$(printf '%s' "$release_json" \
@@ -248,7 +264,7 @@ install_github_binary() {
         | cut -d'"' -f4)
 
     if [[ -z "$asset_url" ]]; then
-        warn "No asset matching '$asset_pattern' found for $name $latest_tag — skipping"
+        error "No asset matching '$asset_pattern' found for $name $latest_tag"
         return 1
     fi
 
@@ -256,43 +272,58 @@ install_github_binary() {
     local filename; filename=$(basename "$asset_url")
 
     info "Downloading $name $latest_tag..."
-    curl -sfL --progress-bar "$asset_url" -o "$tmpdir/$filename"
+    curl -fSL --progress-bar "$asset_url" -o "$tmpdir/$filename" || {
+        error "Failed to download $name $latest_tag from $asset_url"
+        rm -rf "$tmpdir"; return 1
+    }
 
     mkdir -p "$install_dir"
 
     case "$filename" in
         *.AppImage|*.appimage)
-            install -m755 "$tmpdir/$filename" "$install_dir/$binary_name"
+            install -m755 "$tmpdir/$filename" "$install_dir/$binary_name" || {
+                error "Failed to install $name binary"
+                rm -rf "$tmpdir"; return 1
+            }
             ;;
         *.tar.gz|*.tgz)
-            tar -xzf "$tmpdir/$filename" -C "$tmpdir"
+            tar -xzf "$tmpdir/$filename" -C "$tmpdir" || {
+                error "Failed to extract $filename"
+                rm -rf "$tmpdir"; return 1
+            }
             local bin; bin=$(find "$tmpdir" -type f -name "$binary_name" | head -1)
             if [[ -z "$bin" ]]; then
-                warn "Binary '$binary_name' not found inside $filename"
+                error "Binary '$binary_name' not found inside $filename"
                 rm -rf "$tmpdir"; return 1
             fi
             install -m755 "$bin" "$install_dir/$binary_name"
             ;;
         *.tar.bz2|*.tbz|*.tbz2)
-            tar -xjf "$tmpdir/$filename" -C "$tmpdir"
+            tar -xjf "$tmpdir/$filename" -C "$tmpdir" || {
+                error "Failed to extract $filename"
+                rm -rf "$tmpdir"; return 1
+            }
             local bin; bin=$(find "$tmpdir" -type f -name "$binary_name" | head -1)
             if [[ -z "$bin" ]]; then
-                warn "Binary '$binary_name' not found inside $filename"
+                error "Binary '$binary_name' not found inside $filename"
                 rm -rf "$tmpdir"; return 1
             fi
             install -m755 "$bin" "$install_dir/$binary_name"
             ;;
         *.zip)
-            unzip -q "$tmpdir/$filename" -d "$tmpdir"
+            unzip -q "$tmpdir/$filename" -d "$tmpdir" || {
+                error "Failed to extract $filename"
+                rm -rf "$tmpdir"; return 1
+            }
             local bin; bin=$(find "$tmpdir" -type f -name "$binary_name" | head -1)
             if [[ -z "$bin" ]]; then
-                warn "Binary '$binary_name' not found inside $filename"
+                error "Binary '$binary_name' not found inside $filename"
                 rm -rf "$tmpdir"; return 1
             fi
             install -m755 "$bin" "$install_dir/$binary_name"
             ;;
         *)
-            warn "Unrecognised archive format: $filename"
+            error "Unrecognised archive format: $filename"
             rm -rf "$tmpdir"; return 1
             ;;
     esac
