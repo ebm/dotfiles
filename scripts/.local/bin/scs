@@ -35,9 +35,12 @@ imv_proc = subprocess.Popen(["imv", str(Path.home() / "Pictures" / f"{first_uid}
 imv_pid = imv_proc.pid
 
 subprocess.run(
-    ["fzf", "--delimiter=\t",
+    ["fzf", "--delimiter=\t", "--no-hscroll", "--with-nth=1..3",
+     f"--preview=sqlite3 {db_path} \"SELECT ocr FROM screenshots WHERE uid={{1}}\"",
+     "--preview-window=down:10:wrap",
      f"--bind=focus:execute-silent(imv-msg {imv_pid} open ~/Pictures/{{1}}.png && imv-msg {imv_pid} goto -1)",
-     f"--bind=enter:execute(sqlite3 {db_path} \"SELECT ocr FROM screenshots WHERE uid={{1}}\" | wl-copy)"],
+     f"--bind=enter:execute(sqlite3 {db_path} \"SELECT ocr FROM screenshots WHERE uid={{1}}\" | wl-copy)",
+     f"--bind=ctrl-bspace:execute-silent(rm ~/Pictures/{{1}}.png && sqlite3 {db_path} \"DELETE FROM screenshots WHERE uid={{1}}\")+reload[sqlite3 -separator $'\\t' {db_path} \"SELECT uid, date, title, replace(ocr, char(10), ' ') FROM screenshots ORDER BY date DESC\"]+refresh-preview+down"],
     input=input_text,
     text=True
 )
