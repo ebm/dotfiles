@@ -1,38 +1,33 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
 # Read `man 5 sway` for a complete reference.
 
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
+# Mod4 = Option/Windows key. Use Mod1 for Alt.
 set $mod Mod4
-# Home row direction keys, like vim
+
+# Keys
 set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
+
+# Terminal emulator
 set $term foot
-# Your preferred application launcher
+
+# Application launcher
 set $menu wmenu-run
 
-### Output configuration
-#
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-#output * bg /home/ethan/.config/sway/zuko.jpg fill
 output * bg /home/ethan/.config/sway/zuko_vs_azula.jpg fill
-#
-# Example configuration:
-#
+
 input * {
+    # Rebind escape to caps and caps to shift+caps
     xkb_options caps:escape_shifted_capslock
+    # Key holding
     repeat_rate 50
     repeat_delay 300
-    scroll_method on_button_down
+    # Middle Mouse Button
     scroll_button button2
-    scroll_button_lock disabled
+    scroll_method on_button_down
+    scroll_button_lock enabled
     scroll_factor 1
 }
 
@@ -47,24 +42,15 @@ bindsym Print exec grim - | tee ~/Pictures/$(date +%Y%m%d-%H%M%S).png | wl-copy
 # Screenshot selected region - save and copy
 bindsym $mod+Shift+s exec grim -g "$(slurp)" - | tee ~/Pictures/$(date +%Y%m%d-%H%M%S).png | wl-copy
 
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-
-### Idle configuration
-#
-# Example configuration:
-#
+# Sleep mechanics
 exec swayidle -w \
     timeout 60 'pgrep -x swaylock && swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
     timeout 300 'pgrep -x swaylock && systemctl hibernate' \
     before-sleep 'swaylock -f -c 000000'
 
-bindsym $mod+Shift+Delete swaylock
+    # Lock screen
+    bindsym $mod+Shift+Delete exec swaylock
 
-### Key bindings
-#
-# Basics:
-#
     # Start a terminal
     bindsym $mod+Return exec $term
 
@@ -86,9 +72,7 @@ bindsym $mod+Shift+Delete swaylock
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
-# Moving around:
-#
+
     # Move your focus around
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
@@ -110,9 +94,7 @@ bindsym $mod+Shift+Delete swaylock
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
+
     # Switch to workspace
     bindsym $mod+1 workspace number 1
     bindsym $mod+2 workspace number 2
@@ -137,9 +119,7 @@ bindsym $mod+Shift+Delete swaylock
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
-#
-# Layout stuff:
-#
+
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
@@ -162,9 +142,7 @@ bindsym $mod+Shift+Delete swaylock
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
+
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
@@ -174,9 +152,7 @@ bindsym $mod+Shift+Delete swaylock
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
+
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
@@ -198,9 +174,7 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-#
-# Utilities:
-#
+
     # Special keys to adjust volume via PulseAudio
     bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
     bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
@@ -212,38 +186,9 @@ bindsym $mod+r mode "resize"
     # Special key to take a screenshot with grim
     # bindsym Print exec grim
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-
 exec_always pkill -SIGUSR2 waybar || (sleep 0.5 && waybar) &
 
-#bar {
-#    position top
-#
-#    # When the status_command prints a new line to stdout, swaybar updates.
-#    # The default just shows the current date and time.
-#    status_command i3status
-#
-#    #colors {
-#    #    statusline #ffffff
-#    #    background #323232
-#    #    inactive_workspace #32323200 #32323200 #5c5c5c
-#    #}
-#    colors {
-#        statusline         #cdd6f4
-#        background         #1e1e2e
-#        separator          #45475a
-#
-#        focused_workspace  #cba6f7 #cba6f7 #1e1e2e
-#        active_workspace   #585b70 #585b70 #cdd6f4
-#        inactive_workspace #313244 #313244 #cdd6f4
-#        urgent_workspace   #f38ba8 #f38ba8 #1e1e2e
-#        binding_mode       #fab387 #fab387 #1e1e2e
-#    }
-#}
-
+# Colors
 client.focused          #cba6f7 #1e1e2e #cdd6f4 #cba6f7   #cba6f7
 client.focused_inactive #45475a #1e1e2e #a6adc8 #45475a   #45475a
 client.unfocused        #313244 #1e1e2e #a6adc8 #313244   #313244
