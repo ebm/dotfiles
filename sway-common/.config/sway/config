@@ -27,7 +27,7 @@ input * {
     # Middle Mouse Button
     scroll_button button2
     scroll_method on_button_down
-    scroll_button_lock enabled
+    scroll_button_lock disabled
     scroll_factor 1
 }
 
