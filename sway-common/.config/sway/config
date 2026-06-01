@@ -55,13 +55,9 @@ bindsym $mod+Shift+s exec grim -g "$(slurp)" - | tee ~/Pictures/$(date +%Y%m%d-%
 # Example configuration:
 #
 exec swayidle -w \
-    timeout 300 'swaylock -f -c 000000' \
-    timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    timeout 60 'pgrep -x swaylock && swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    timeout 300 'pgrep -x swaylock && systemctl hibernate' \
     before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Key bindings
 #
@@ -149,9 +145,9 @@ exec swayidle -w \
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+    # bindsym $mod+s layout stacking
+    # bindsym $mod+w layout tabbed
+    # bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
