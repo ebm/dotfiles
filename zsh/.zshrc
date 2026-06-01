@@ -68,4 +68,5 @@ fi
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
+alias scs="~/dotfiles/scripts/scs.py"
 

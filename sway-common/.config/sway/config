@@ -36,11 +36,9 @@ input type:pointer {
     pointer_accel 0
 }
 
-# Screenshot entire screen - save and copy
-bindsym Print exec grim - | tee ~/Pictures/$(date +%Y%m%d-%H%M%S).png | wl-copy
-
-# Screenshot selected region - save and copy
-bindsym $mod+Shift+s exec grim -g "$(slurp)" - | tee ~/Pictures/$(date +%Y%m%d-%H%M%S).png | wl-copy
+# Screenshot
+bindsym $mod+Shift+s exec /home/ethan/dotfiles/scripts/screenshot.py
+bindsym Print exec /home/ethan/dotfiles/scripts/screenshot.py --fullscreen
 
 # Sleep mechanics
 exec swayidle -w \

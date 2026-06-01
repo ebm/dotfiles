@@ -34,6 +34,8 @@ grim
 slurp
 brightnessctl
 mako
+tesseract
+tesseract-data-eng
 
 openssh
 wireguard-tools
