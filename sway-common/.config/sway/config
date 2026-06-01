@@ -37,8 +37,8 @@ input type:pointer {
 }
 
 # Screenshot
-bindsym $mod+Shift+s exec /home/ethan/dotfiles/scripts/screenshot.py
-bindsym Print exec /home/ethan/dotfiles/scripts/screenshot.py --fullscreen
+bindsym $mod+Shift+s exec screenshot
+bindsym Print exec screenshot --fullscreen
 
 # Sleep mechanics
 exec swayidle -w \
