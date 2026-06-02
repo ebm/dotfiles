@@ -38,7 +38,7 @@ def make_engine():
     os.nice(19)
     os.environ.setdefault("OMP_NUM_THREADS", "1")
     from rapidocr import RapidOCR
-    return RapidOCR()
+    return RapidOCR(params={"Global.log_level": "warning"})
 
 
 def ocr_image(engine, path):
@@ -94,7 +94,7 @@ if __name__ == "__main__":
         refresh_ocr(db_path, folder)
         sys.exit()
 
-    clipboard = "--from-clipboard" in sys.argv
+    clipboard = "--clip" in sys.argv
     fullscreen = "--fullscreen" in sys.argv
 
     folder.mkdir(exist_ok=True)
@@ -118,6 +118,8 @@ if __name__ == "__main__":
         with open(path, "wb") as f:
             subprocess.run(["wl-paste", "--type", img_type], stdout=f, check=True)
         title = "Unknown"
+
+        print("Image copied")
     else:
         if fullscreen:
             subprocess.run(["grim", path])
