@@ -14,9 +14,6 @@ if not db_path.exists():
 conn = sqlite3.connect(str(db_path))
 rows = conn.execute("SELECT * FROM screenshots ORDER BY date DESC").fetchall()
 
-def clean_ocr(text):
-    return ' '.join(text.split())
-
 lines = []
 for uid, date, title, ocr in rows:
     if not (Path.home() / "Pictures" / f"{uid}.png").exists():
@@ -43,7 +40,7 @@ subprocess.run(
      "--preview-window=down:10:wrap",
      f"--bind=focus:execute-silent(imv-msg {imv_pid} open ~/Pictures/{{1}}.png && imv-msg {imv_pid} goto -1)",
      f"--bind=enter:execute(sqlite3 {db_path} \"SELECT ocr FROM screenshots WHERE uid={{1}}\" | wl-copy)",
-     f"--bind=ctrl-bspace:execute-silent(rm ~/Pictures/{{1}}.png && sqlite3 {db_path} \"DELETE FROM screenshots WHERE uid={{1}}\")+reload[sqlite3 -separator $'\\t' {db_path} \"SELECT uid, date, title, replace(ocr, '\\n', ' ') FROM screenshots ORDER BY date DESC\"]+refresh-preview+down"],
+     f"--bind=ctrl-bspace:execute-silent(rm ~/Pictures/{{1}}.png && sqlite3 {db_path} \"DELETE FROM screenshots WHERE uid={{1}}\")+reload[sqlite3 -separator $'\\t' {db_path} \"SELECT uid, date, title, replace(ocr, char(10), ' ') FROM screenshots ORDER BY date DESC\"]+refresh-preview+down"],
     input=input_text,
     text=True
 )
