@@ -3,6 +3,7 @@
 import sqlite3
 import subprocess
 import sys
+import re
 import uuid
 import json
 import multiprocessing
@@ -32,12 +33,16 @@ def get_focused_window():
     return "", ""
 
 
+def clean_ocr(text):
+    return re.sub(r"\n\s*\n+", "\n", text).strip()
+
+
 def run_ocr(uid, path, db_path):
     tmp = path.replace(".png", ".tmp.png")
     subprocess.run(["magick", path, "-colorspace", "Gray", "-normalize", "-resize", "200%", tmp])
-    result = subprocess.run(["tesseract", tmp, "-", "--psm", "11"], capture_output=True, text=True)
+    result = subprocess.run(["tesseract", tmp, "-", "--psm", "3"], capture_output=True, text=True)
     subprocess.run(["rm", tmp])
-    ocr_text = result.stdout.strip()
+    ocr_text = clean_ocr(result.stdout)
     conn = sqlite3.connect(db_path)
     conn.execute("UPDATE screenshots SET ocr = ? WHERE uid = ?", (ocr_text, uid))
     conn.commit()
