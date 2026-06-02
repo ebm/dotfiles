@@ -16,7 +16,6 @@ librewolf-bin
 discord
 
 mpv
-vlc-plugins-all
 imv
 gimp
 obsidian
@@ -28,12 +27,10 @@ swayidle
 waybar
 wofi
 wmenu
-i3status
 wl-clipboard
 grim
 slurp
 brightnessctl
-mako
 python-onnxruntime-cpu
 
 openssh
