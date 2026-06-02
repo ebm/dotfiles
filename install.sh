@@ -58,6 +58,7 @@ if [[ "$PROFILE" == laptop || "$PROFILE" == desktop ]]; then
 
     # 1. System packages
     install_pacman_packages packages.txt
+    install_aur_packages aur-packages.txt
 
     need_cmd stow
     ensure_dirs

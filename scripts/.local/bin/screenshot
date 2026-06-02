@@ -3,7 +3,7 @@
 import sqlite3
 import subprocess
 import sys
-import re
+import os
 import uuid
 import json
 import multiprocessing
@@ -33,16 +33,26 @@ def get_focused_window():
     return "", ""
 
 
-def clean_ocr(text):
-    return re.sub(r"\n\s*\n+", "\n", text).strip()
-
-
 def run_ocr(uid, path, db_path):
-    tmp = path.replace(".png", ".tmp.png")
-    subprocess.run(["magick", path, "-colorspace", "Gray", "-normalize", "-resize", "200%", tmp])
-    result = subprocess.run(["tesseract", tmp, "-", "--psm", "3"], capture_output=True, text=True)
-    subprocess.run(["rm", tmp])
-    ocr_text = clean_ocr(result.stdout)
+    # This runs in a detached child process, so keep it off the foreground's
+    # back: lowest scheduling priority + capped thread count. Slow is fine.
+    os.nice(19)
+    os.environ.setdefault("OMP_NUM_THREADS", "2")
+
+    # Imported here (not at module top) so the cost only lands in this child,
+    # never in the capture path.
+    from rapidocr import RapidOCR
+
+    engine = RapidOCR()
+    result = engine(path)
+
+    # RapidOCR detects text per-box and recognizes each separately, so we get a
+    # list of strings (one visual line each) rather than tesseract's page blob.
+    # Joining with "\n" gives exactly one newline between lines — no blank-line
+    # artifacts to scrub, so no post-processing/regex needed.
+    texts = getattr(result, "txts", None) or ()
+    ocr_text = "\n".join(t.strip() for t in texts if t and t.strip())
+
     conn = sqlite3.connect(db_path)
     conn.execute("UPDATE screenshots SET ocr = ? WHERE uid = ?", (ocr_text, uid))
     conn.commit()

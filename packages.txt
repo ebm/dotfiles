@@ -34,8 +34,7 @@ grim
 slurp
 brightnessctl
 mako
-tesseract
-tesseract-data-eng
+python-onnxruntime-cpu
 
 openssh
 wireguard-tools
