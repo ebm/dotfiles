@@ -34,11 +34,7 @@ def get_focused_window():
 
 
 def make_engine():
-    # nice(19) is the real guarantee OCR never steals cycles from the foreground;
-    # the thread cap just trims peak CPU draw (gentler on a laptop). Slow is fine,
-    # so a single thread is plenty. OMP_NUM_THREADS must be set before onnxruntime
-    # is imported to take effect. rapidocr is imported here, not at module top, so
-    # the cost only lands where OCR actually runs — never in the capture path.
+    # nice(19) sets the priority low so it doesn't affect foreground processes
     os.nice(19)
     os.environ.setdefault("OMP_NUM_THREADS", "1")
     from rapidocr import RapidOCR
@@ -47,16 +43,12 @@ def make_engine():
 
 def ocr_image(engine, path):
     result = engine(path)
-    # RapidOCR detects text per-box and recognizes each separately, so we get a
-    # list of strings (one visual line each) rather than tesseract's page blob.
-    # Joining with "\n" gives exactly one newline between lines — no blank-line
-    # artifacts to scrub, so no post-processing/regex needed.
     texts = getattr(result, "txts", None) or ()
     return "\n".join(t.strip() for t in texts if t and t.strip())
 
 
 def run_ocr(uid, path, db_path):
-    # Runs in a detached child process, so capture never waits on it.
+    # Runs in a detached child process, so capture never waits.
     ocr_text = ocr_image(make_engine(), path)
     conn = sqlite3.connect(db_path)
     conn.execute("UPDATE screenshots SET ocr = ? WHERE uid = ?", (ocr_text, uid))
@@ -65,8 +57,7 @@ def run_ocr(uid, path, db_path):
 
 
 def refresh_ocr(db_path, folder):
-    # Re-OCR every indexed screenshot with the current engine. The engine is
-    # built once and reused (model load is the slow part), then we walk the DB.
+    # Re-OCR every indexed screenshot with the current engine.
     if not db_path.exists():
         print("No screenshot database found.")
         return
@@ -79,7 +70,6 @@ def refresh_ocr(db_path, folder):
         print("No screenshots to refresh.")
         conn.close()
         return
-
     done = 0
     for i, (uid,) in enumerate(rows, 1):
         img = folder / f"{uid}.png"
@@ -104,6 +94,7 @@ if __name__ == "__main__":
         refresh_ocr(db_path, folder)
         sys.exit()
 
+    clipboard = "--from-clipboard" in sys.argv
     fullscreen = "--fullscreen" in sys.argv
 
     folder.mkdir(exist_ok=True)
@@ -114,24 +105,29 @@ if __name__ == "__main__":
         uid = str(uuid.uuid4())[:8]
     path = str(folder / f"{uid}.png")
 
-    app_id, title = get_focused_window()
-    db_title = app_id + "->" + title
+    foreground, title = get_focused_window()
 
-    if fullscreen:
-        subprocess.run(["grim", path])
+    if clipboard:
+        # Prefer PNG, but accept any image/* type the clipboard offers.
+        types = subprocess.run(["wl-paste", "--list-types"],
+                               capture_output=True, text=True).stdout.split()
+        img_type = "image/png" if "image/png" in types else next(
+            (t for t in types if t.startswith("image/")), None)
+        if img_type is None:
+            sys.exit("No image on the clipboard.")
+        with open(path, "wb") as f:
+            subprocess.run(["wl-paste", "--type", img_type], stdout=f, check=True)
+        title = "Unknown"
     else:
-        # slurp exits non-zero when the selection is cancelled (Esc/right-click).
-        # That's not an error — just bail out before anything is written.
-        try:
+        if fullscreen:
+            subprocess.run(["grim", path])
+        else:
             selection = subprocess.check_output(["slurp"], text=True).strip()
-        except subprocess.CalledProcessError:
-            sys.exit(0)
-        if not selection:
-            sys.exit(0)
-        subprocess.run(["grim", "-g", selection, path])
-
-    with open(path, "rb") as f:
-        subprocess.run(["wl-copy", "--type", "image/png"], stdin=f)
+            if not selection:
+                sys.exit(0)
+            subprocess.run(["grim", "-g", selection, path])
+        with open(path, "rb") as f:
+            subprocess.run(["wl-copy", "--type", "image/png"], stdin=f)
 
     db_date = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
 
@@ -139,12 +135,14 @@ if __name__ == "__main__":
     conn.execute("""CREATE TABLE IF NOT EXISTS screenshots (
         uid TEXT PRIMARY KEY,
         date TEXT,
+        foreground TEXT,
         title TEXT,
         ocr TEXT
     )""")
+    conn.commit()
     conn.execute(
-        "INSERT INTO screenshots (uid, date, title, ocr) VALUES (?, ?, ?, ?)",
-        (uid, db_date, db_title, "")
+        "INSERT INTO screenshots (uid, date, foreground, title, ocr) VALUES (?, ?, ?, ?, ?)",
+        (uid, db_date, foreground, title, "")
     )
     conn.commit()
     conn.close()
