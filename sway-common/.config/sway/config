@@ -12,6 +12,8 @@ set $right l
 # Terminal emulator
 set $term foot
 
+set $brow librewolf
+
 # Application launcher
 set $menu wmenu-run
 
@@ -51,6 +53,9 @@ exec swayidle -w \
 
     # Start a terminal
     bindsym $mod+Return exec $term
+
+    # Start browser
+    bindsym $mod+b exec $brow
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -119,9 +124,9 @@ exec swayidle -w \
     # We just use 1-10 as the default.
 
     # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
+    # $mod+n or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
+    bindsym $mod+n splith
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
