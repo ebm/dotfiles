@@ -57,6 +57,8 @@ exec swayidle -w \
     # Start browser
     bindsym $mod+b exec $brow
 
+    bindsym $mod+y exec discord
+
     # Kill focused window
     bindsym $mod+Shift+q kill
 
