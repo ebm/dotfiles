@@ -17,21 +17,13 @@ compinit
 export LESS_TERMCAP_md="$(tput bold 2>/dev/null; tput setaf 2 2>/dev/null)"
 export LESS_TERMCAP_me="$(tput sgr0 2>/dev/null)"
 
-ZSH_PLUGINS="$HOME/.zsh/plugins"
-
 # Prompt: powerlevel10k
 typeset -g POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
-[[ -f "$ZSH_PLUGINS/powerlevel10k/powerlevel10k.zsh-theme" ]] && \
-    source "$ZSH_PLUGINS/powerlevel10k/powerlevel10k.zsh-theme"
+source "/run/current-system/sw/share/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-# Autosuggestions
-[[ -f "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
-    source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
 # History substring search + Ctrl-P / Ctrl-N binds
-[[ -f "$ZSH_PLUGINS/zsh-history-substring-search/zsh-history-substring-search.zsh" ]] && \
-    source "$ZSH_PLUGINS/zsh-history-substring-search/zsh-history-substring-search.zsh"
+source "/run/current-system/sw/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
@@ -42,22 +34,8 @@ export FZF_DEFAULT_OPTS="
   --bind 'ctrl-d:half-page-down,ctrl-u:half-page-up'
   --bind 'ctrl-/:toggle-preview'
 "
-if command -v fzf >/dev/null 2>&1; then
-    if fzf --zsh >/dev/null 2>&1; then
-        source <(fzf --zsh)
-    else
-        for f in /usr/share/fzf/key-bindings.zsh \
-                 /usr/share/fzf/completion.zsh \
-                 /usr/share/doc/fzf/examples/key-bindings.zsh \
-                 /usr/share/doc/fzf/examples/completion.zsh; do
-            [[ -f "$f" ]] && source "$f"
-        done
-    fi
-fi
+source <(fzf --zsh)
 
-# Syntax highlighting — must be sourced LAST per upstream docs
-[[ -f "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
-    source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # ls colors — use xterm-256color so dircolors always finds the color database
 # (foot supports all xterm-256color sequences; TERM=foot has no dircolors entry)
