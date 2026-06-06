@@ -38,6 +38,9 @@ input type:pointer {
     pointer_accel 0
 }
 
+# Set cursor
+seat seat0 xcursor_theme Adwaita
+
 # Screenshot
 bindsym $mod+Shift+s exec screenshot
 bindsym Print exec screenshot --fullscreen

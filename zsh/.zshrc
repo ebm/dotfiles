@@ -47,3 +47,4 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias sc='screenshot'
+alias nrs="sudo nixos-rebuild switch"
