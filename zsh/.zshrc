@@ -48,3 +48,4 @@ alias grep='grep --color=auto'
 alias vim='nvim'
 alias sc='screenshot'
 alias nrs="sudo nixos-rebuild switch"
+alias ec="sudo -E nvim /etc/nixos/"
