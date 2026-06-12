@@ -14,6 +14,7 @@
   imports = [
     ./modules/packages.nix
     ./modules/nixvim.nix
+    ./modules/zsh.nix
   ];
 
   home.pointerCursor = {
