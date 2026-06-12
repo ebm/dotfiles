@@ -86,10 +86,6 @@
     foot
     wl-clipboard
     unzip
-    zsh-powerlevel10k
-    zsh-autosuggestions
-    zsh-history-substring-search
-    zsh-syntax-highlighting
     adwaita-icon-theme
   ];
 
