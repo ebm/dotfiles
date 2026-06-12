@@ -4,5 +4,5 @@
   home-manager.extraSpecialArgs = {
     inherit inputs;
   };
-  home-manager.users.ethan = ./home.nix;
+  home-manager.users.ethan = ../home.nix;
 }
