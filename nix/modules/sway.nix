@@ -197,10 +197,10 @@ in
         {
           command = "swayidle -w timeout 60 'pgrep -x swaylock && swaymsg \"output * power off\"' resume 'swaymsg \"output * power on\"' timeout 300 'pgrep -x swaylock && systemctl suspend' before-sleep 'swaylock -f -c 000000'";
         }
-        {
-          command = "pkill -SIGUSR2 waybar || (sleep 0.5 && waybar)";
-          always = true;
-        }
+        # {
+        #   command = "pkill -SIGUSR2 waybar || (sleep 0.5 && waybar)";
+        #   always = true;
+        # }
       ];
     };
 
