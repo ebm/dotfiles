@@ -1,0 +1,24 @@
+{ pkgs, ... }: {
+  home.packages = with pkgs; [
+    librewolf
+    stow
+    tree-sitter
+    claude-code
+    clang
+    lua-language-server
+    pyright
+    jdt-language-server
+    stylua
+    nixfmt
+    black
+    gnumake
+    fzf
+    ripgrep
+    fd
+    tree
+    wget
+    tldr
+    python3
+    discord
+  ];
+}
