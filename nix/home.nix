@@ -15,6 +15,7 @@
     ./modules/packages.nix
     ./modules/nixvim.nix
     ./modules/zsh.nix
+    ./modules/sway.nix
   ];
 
   home.pointerCursor = {
