@@ -21,6 +21,8 @@
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [ "quiet" ];
+  boot.initrd.verbose = false;
 
   networking.hostName = "laptop"; # Define your hostname.
 
@@ -72,6 +74,14 @@
     enable = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
+  };
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
+      };
+    };
   };
 
   # List packages installed in system profile.
