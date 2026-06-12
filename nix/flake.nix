@@ -18,19 +18,25 @@
       ...
     }:
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration.nix
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.ethan = ./home.nix;
-          }
-          inputs.nixvim.nixosModules.nixvim
-        ];
+      nixosConfigurations = {
+        desktop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/desktop/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
+            ./modules/home-manager.nix
+            inputs.nixvim.nixosModules.nixvim
+          ];
+        };
+        laptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/laptop/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
+            ./modules/home-manager.nix
+            inputs.nixvim.nixosModules.nixvim
+          ];
+        };
       };
     };
 

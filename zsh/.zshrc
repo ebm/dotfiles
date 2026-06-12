@@ -47,5 +47,5 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias sc='screenshot'
-alias nrs="sudo nixos-rebuild switch"
+alias nrs="sudo nixos-rebuild switch --flake ~/dotfiles/nix#laptop"
 alias ec="sudo -E nvim /etc/nixos/"
