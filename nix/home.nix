@@ -15,7 +15,7 @@
     ./modules/packages.nix
     ./modules/nixvim.nix
     ./modules/zsh.nix
-    ./modules/sway.nix
+    ./modules/sway
     ./modules/waybar.nix
     ./modules/foot.nix
   ];

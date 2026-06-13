@@ -1,4 +1,9 @@
-{ lib, osConfig, ... }:
+{
+  config,
+  lib,
+  osConfig,
+  ...
+}:
 
 let
   hostname = osConfig.networking.hostName;
@@ -22,30 +27,11 @@ in
 
       defaultWorkspace = "workspace number 1";
 
-      output = lib.mkMerge [
-        {
-          "*" = {
-            bg = "${../zuko_vs_azula.jpg} fill";
-          };
-        }
-        (lib.mkIf (hostname == "laptop") {
-          "eDP-1" = {
-            resolution = "1920x1200";
-            position = "0 0";
-            scale = "1.5";
-          };
-        })
-        (lib.mkIf (hostname == "desktop") {
-          "HDMI-A-1" = {
-            resolution = "1920x1080@240Hz";
-            position = "0 0";
-          };
-          "DP-1" = {
-            resolution = "1920x1080@144Hz";
-            position = "1920 0";
-          };
-        })
-      ];
+      output = {
+        "*" = {
+          bg = "${../zuko_vs_azula.jpg} fill";
+        };
+      };
 
       input = lib.mkMerge [
         {
