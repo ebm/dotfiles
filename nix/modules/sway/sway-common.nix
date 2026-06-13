@@ -8,11 +8,12 @@
 let
   hostname = osConfig.networking.hostName;
   mod = "Mod4";
-  swaylockcmd = "swaylock --image ${../zuko_vs_azula.jpg} --scaling fill";
+  wallpaper = ../../zuko_vs_azula.jpg;
+  swaylockcmd = "swaylock --image ${wallpaper} --scaling fill";
 in
 {
   xdg.configFile."swaylock/config".text = ''
-    image=${../zuko_vs_azula.jpg}
+    image=${wallpaper}
     scaling=fill
     ignore-empty-password
     show-failed-attempts
@@ -29,37 +30,25 @@ in
 
       output = {
         "*" = {
-          bg = "${../zuko_vs_azula.jpg} fill";
+          bg = "${wallpaper} fill";
         };
       };
 
-      input = lib.mkMerge [
-        {
-          "*" = {
-            xkb_options = "caps:escape_shifted_capslock";
-            repeat_rate = "50";
-            repeat_delay = "300";
-            scroll_button = "button2";
-            scroll_method = "on_button_down";
-            scroll_button_lock = "disabled";
-            scroll_factor = "1";
-          };
-          "type:pointer" = {
-            accel_profile = "flat";
-            pointer_accel = "0";
-          };
-        }
-        (lib.mkIf (hostname == "laptop") {
-          "type:touchpad" = {
-            click_method = "clickfinger";
-            natural_scroll = "enabled";
-            dwt = "enabled";
-            middle_emulation = "enabled";
-            accel_profile = "adaptive";
-            scroll_method = "two_finger";
-          };
-        })
-      ];
+      input = {
+        "*" = {
+          xkb_options = "caps:escape_shifted_capslock";
+          repeat_rate = "50";
+          repeat_delay = "300";
+          scroll_button = "button2";
+          scroll_method = "on_button_down";
+          scroll_button_lock = "disabled";
+          scroll_factor = "1";
+        };
+        "type:pointer" = {
+          accel_profile = "flat";
+          pointer_accel = "0";
+        };
+      };
 
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec foot";
@@ -193,23 +182,5 @@ in
         }
       ];
     };
-
-    extraConfig =
-      lib.optionalString (hostname == "laptop") ''
-        bindswitch --reload --locked lid:on output eDP-1 disable
-        bindswitch --reload --locked lid:off output eDP-1 enable
-      ''
-      + lib.optionalString (hostname == "desktop") ''
-        workspace 1 output HDMI-A-1
-        workspace 2 output HDMI-A-1
-        workspace 3 output HDMI-A-1
-        workspace 4 output HDMI-A-1
-        workspace 5 output HDMI-A-1
-        workspace 6 output DP-1
-        workspace 7 output DP-1
-        workspace 8 output DP-1
-        workspace 9 output DP-1
-        workspace 10 output DP-1
-      '';
   };
 }

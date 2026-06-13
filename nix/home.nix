@@ -20,6 +20,8 @@
     ./modules/foot.nix
   ];
 
+  mine.sway.laptop = true;
+
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
