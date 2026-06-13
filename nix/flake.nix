@@ -25,7 +25,14 @@
           modules = [
             ./hosts/desktop/configuration.nix
             inputs.home-manager.nixosModules.home-manager
-            ./modules/home-manager.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.users.ethan = ./hosts/desktop/home.nix;
+            }
             inputs.nixvim.nixosModules.nixvim
           ];
         };
@@ -35,7 +42,14 @@
           modules = [
             ./hosts/laptop/configuration.nix
             inputs.home-manager.nixosModules.home-manager
-            ./modules/home-manager.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.users.ethan = ./hosts/laptop/home.nix;
+            }
             inputs.nixvim.nixosModules.nixvim
           ];
         };

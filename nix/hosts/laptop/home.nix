@@ -12,12 +12,12 @@
   home.homeDirectory = "/home/ethan";
 
   imports = [
-    ./modules/packages.nix
-    ./modules/nixvim.nix
-    ./modules/zsh
-    ./modules/sway
-    ./modules/waybar.nix
-    ./modules/foot.nix
+    ../../modules/packages.nix
+    ../../modules/nixvim.nix
+    ../../modules/zsh
+    ../../modules/sway
+    ../../modules/waybar.nix
+    ../../modules/foot.nix
   ];
 
   mine.sway.laptop = true;
