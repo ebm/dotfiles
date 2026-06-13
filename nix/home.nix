@@ -17,6 +17,7 @@
     ./modules/zsh.nix
     ./modules/sway.nix
     ./modules/waybar.nix
+    ./modules/foot.nix
   ];
 
   home.pointerCursor = {
