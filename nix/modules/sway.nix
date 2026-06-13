@@ -3,8 +3,16 @@
 let
   hostname = osConfig.networking.hostName;
   mod = "Mod4";
+  swaylockcmd = "swaylock --image ${../zuko_vs_azula.jpg} --scaling fill";
 in
 {
+  xdg.configFile."swaylock/config".text = ''
+    image=${../zuko_vs_azula.jpg}
+    scaling=fill
+    ignore-empty-password
+    show-failed-attempts
+  '';
+
   wayland.windowManager.sway = {
     enable = true;
     config = {
@@ -75,7 +83,7 @@ in
 
         "${mod}+Shift+s" = "exec screenshot";
         "Print" = "exec screenshot --fullscreen";
-        "${mod}+Shift+Delete" = "exec swaylock";
+        "${mod}+Shift+Delete" = "exec ${swaylockcmd}";
 
         "${mod}+Shift+q" = "kill";
         "${mod}+f" = "fullscreen";
@@ -195,7 +203,7 @@ in
 
       startup = [
         {
-          command = "swayidle -w timeout 60 'pgrep -x swaylock && swaymsg \"output * power off\"' resume 'swaymsg \"output * power on\"' timeout 300 'pgrep -x swaylock && systemctl suspend' before-sleep 'swaylock -f -c 000000'";
+          command = "swayidle -w timeout 60 'pgrep -x swaylock && swaymsg \"output * power off\"' resume 'swaymsg \"output * power on\"' timeout 300 'pgrep -x swaylock && systemctl suspend' before-sleep '${swaylockcmd} -f'";
         }
       ];
     };
