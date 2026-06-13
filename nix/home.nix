@@ -21,6 +21,7 @@
   ];
 
   mine.sway.laptop = true;
+  mine.zsh.laptop = true;
 
   home.pointerCursor = {
     gtk.enable = true;

@@ -14,8 +14,6 @@
       grep = "grep --color=auto";
       vim = "nvim";
       sc = "screenshot";
-      nrs = "sudo nixos-rebuild switch --flake ~/dotfiles/nix#laptop";
-      ec = "sudo -E nvim /etc/nixos/";
     };
     plugins = [
       {

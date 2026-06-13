@@ -1,5 +1,7 @@
 { ... }: {
   imports = [
-    ./zsh.nix
+    ./zsh-common.nix
+    ./zsh-desktop.nix
+    ./zsh-laptop.nix
   ];
 }
