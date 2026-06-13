@@ -14,7 +14,7 @@
   imports = [
     ./modules/packages.nix
     ./modules/nixvim.nix
-    ./modules/zsh.nix
+    ./modules/zsh
     ./modules/sway
     ./modules/waybar.nix
     ./modules/foot.nix

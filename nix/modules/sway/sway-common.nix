@@ -8,7 +8,7 @@
 let
   hostname = osConfig.networking.hostName;
   mod = "Mod4";
-  wallpaper = ../../zuko_vs_azula.jpg;
+  wallpaper = ./wallpapers/zuko_vs_azula.jpg;
   swaylockcmd = "swaylock --image ${wallpaper} --scaling fill";
 in
 {
