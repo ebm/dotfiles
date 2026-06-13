@@ -1,20 +1,8 @@
-{
-  config,
-  pkgs,
-  inputs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "ethan";
-  home.homeDirectory = "/home/ethan";
-
   imports = [
-    ../../modules/packages.nix
-    ../../modules/nixvim.nix
-    ../../modules/zsh
+    ../common/home-common.nix
     ../../modules/sway
     ../../modules/waybar.nix
     ../../modules/foot.nix
@@ -30,14 +18,4 @@
     name = "Adwaita";
     size = 16;
   };
-
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "26.05";
 }

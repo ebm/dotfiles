@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  osConfig,
   ...
 }:
 
 let
-  hostname = osConfig.networking.hostName;
   mod = "Mod4";
   wallpaper = ./wallpapers/zuko_vs_azula.jpg;
   swaylockcmd = "swaylock --image ${wallpaper} --scaling fill";
