@@ -69,8 +69,16 @@
 
   fonts.fontconfig.defaultFonts.monospace = [ "JetBrainsMono Nerd Font" ];
 
+  # Extra Packages:
+    #   brightnessctl
+    #   foot
+    #   grim
+    #   pulseaudio
+    #   swayidle
+    #   swaylock
+    #   wmenu
   programs.sway.enable = true;
-  programs.zsh = {
+    programs.zsh = {
     enable = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
@@ -89,12 +97,7 @@
   environment.systemPackages = with pkgs; [
     git
     waybar
-    dmenu
-    swaylock
-    swayidle
     swaybg
-    foot
-    wl-clipboard
     unzip
     adwaita-icon-theme
   ];
