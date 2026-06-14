@@ -20,5 +20,12 @@
     tldr
     python3
     discord
+    imv
+    mpv
+    btop
+    gradle
+    slurp
+    wl-clipboard
+    sqlite
   ];
 }

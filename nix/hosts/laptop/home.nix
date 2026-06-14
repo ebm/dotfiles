@@ -6,6 +6,7 @@
     ../../modules/sway
     ../../modules/waybar.nix
     ../../modules/foot.nix
+    ../../modules/screenshots
   ];
 
   mine.sway.laptop = true;

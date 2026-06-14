@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import sqlite3
 import subprocess
 import sys
@@ -23,11 +21,15 @@ def find_focused(node):
 
 
 def get_focused_window():
-    result = subprocess.run(["swaymsg", "-t", "get_tree"], capture_output=True, text=True)
+    result = subprocess.run(
+        ["swaymsg", "-t", "get_tree"], capture_output=True, text=True
+    )
     tree = json.loads(result.stdout)
     node = find_focused(tree)
     if node:
-        app_id = node.get("app_id") or node.get("window_properties", {}).get("class") or ""
+        app_id = (
+            node.get("app_id") or node.get("window_properties", {}).get("class") or ""
+        )
         title = node.get("name") or ""
         return app_id, title
     return "", ""
@@ -37,8 +39,18 @@ def make_engine():
     # nice(19) sets the priority low so it doesn't affect foreground processes
     os.nice(19)
     os.environ.setdefault("OMP_NUM_THREADS", "1")
+    import rapidocr
     from rapidocr import RapidOCR
-    return RapidOCR(params={"Global.log_level": "warning"})
+
+    # nixpkgs ships rapidocr with these bundled in site-packages/rapidocr/models;
+    # without explicit paths, rapidocr tries to download into the read-only store.
+    models = Path(rapidocr.__file__).parent / "models"
+    return RapidOCR(params={
+        "Global.log_level": "warning",
+        "Det.model_path": str(models / "ch_PP-OCRv4_det_infer.onnx"),
+        "Cls.model_path": str(models / "ch_ppocr_mobile_v2.0_cls_infer.onnx"),
+        "Rec.model_path": str(models / "ch_PP-OCRv4_rec_infer.onnx"),
+    })
 
 
 def ocr_image(engine, path):
@@ -109,10 +121,14 @@ if __name__ == "__main__":
 
     if clipboard:
         # Prefer PNG, but accept any image/* type the clipboard offers.
-        types = subprocess.run(["wl-paste", "--list-types"],
-                               capture_output=True, text=True).stdout.split()
-        img_type = "image/png" if "image/png" in types else next(
-            (t for t in types if t.startswith("image/")), None)
+        types = subprocess.run(
+            ["wl-paste", "--list-types"], capture_output=True, text=True
+        ).stdout.split()
+        img_type = (
+            "image/png"
+            if "image/png" in types
+            else next((t for t in types if t.startswith("image/")), None)
+        )
         if img_type is None:
             sys.exit("No image on the clipboard.")
         with open(path, "wb") as f:
@@ -124,8 +140,9 @@ if __name__ == "__main__":
         if fullscreen:
             subprocess.run(["grim", path])
         else:
-            selection = subprocess.check_output(["slurp"], text=True).strip()
-            if not selection:
+            result = subprocess.run(["slurp"], capture_output=True, text=True)
+            selection = result.stdout.strip()
+            if result.returncode != 0 or not selection:
                 sys.exit(0)
             subprocess.run(["grim", "-g", selection, path])
         with open(path, "rb") as f:
@@ -134,17 +151,19 @@ if __name__ == "__main__":
     db_date = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
 
     conn = sqlite3.connect(str(db_path))
-    conn.execute("""CREATE TABLE IF NOT EXISTS screenshots (
+    conn.execute(
+        """CREATE TABLE IF NOT EXISTS screenshots (
         uid TEXT PRIMARY KEY,
         date TEXT,
         foreground TEXT,
         title TEXT,
         ocr TEXT
-    )""")
+    )"""
+    )
     conn.commit()
     conn.execute(
         "INSERT INTO screenshots (uid, date, foreground, title, ocr) VALUES (?, ?, ?, ?, ?)",
-        (uid, db_date, foreground, title, "")
+        (uid, db_date, foreground, title, ""),
     )
     conn.commit()
     conn.close()

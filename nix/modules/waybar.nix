@@ -157,7 +157,7 @@
       window#waybar {
           background-color: #1e1e2e;
           color: #cdd6f4;
-          border-radius: 12px;
+          border-radius: 0;
           margin: 8px;
       }
 

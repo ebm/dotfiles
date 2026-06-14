@@ -14,6 +14,7 @@
       grep = "grep --color=auto";
       vim = "nvim";
       sc = "screenshot";
+      scs = "saved-screenshots";
     };
     plugins = [
       {
