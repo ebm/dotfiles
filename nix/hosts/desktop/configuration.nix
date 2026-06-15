@@ -17,7 +17,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "ebm-laptop"; # Define your hostname.
+  networking.hostName = "ebm-desktop"; # Define your hostname.
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
