@@ -3,7 +3,7 @@
 {
   imports = [
     ../modules/sway
-    ../modules/waybar.nix
+    ../modules/waybar
     ../modules/foot.nix
     ../modules/screenshots
   ];
