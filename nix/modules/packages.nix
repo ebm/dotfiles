@@ -12,7 +12,6 @@
     nixfmt
     black
     gnumake
-    fzf
     ripgrep
     fd
     tree

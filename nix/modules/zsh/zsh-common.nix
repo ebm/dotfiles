@@ -2,6 +2,8 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
     history = {
       size = 10000;
       save = 10000;
@@ -48,14 +50,5 @@
           eval "$(TERM=xterm-256color dircolors -b)"
       fi
     '';
-  };
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    defaultOptions = [
-      "--bind 'ctrl-j:down,ctrl-k:up'"
-      "--bind 'ctrl-d:half-page-down,ctrl-u:half-page-up'"
-      "--bind 'ctrl-/:toggle-preview'"
-    ];
   };
 }

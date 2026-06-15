@@ -7,9 +7,10 @@
   home.homeDirectory = "/home/ethan";
 
   imports = [
-    ../../modules/packages.nix
-    ../../modules/nixvim.nix
-    ../../modules/zsh
+    ../modules/packages.nix
+    ../modules/nixvim.nix
+    ../modules/zsh
+    ../modules/fzf.nix
   ];
 
   # This value determines the Home Manager release that your
