@@ -1,4 +1,9 @@
-{ lib, config, osConfig, ... }:
+{
+  lib,
+  config,
+  osConfig,
+  ...
+}:
 {
   config = lib.mkIf (osConfig.mine.host == "desktop") {
     wayland.windowManager.sway = {

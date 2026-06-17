@@ -1,4 +1,10 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  host,
+  ...
+}:
+{
 
   options.mine.host = lib.mkOption {
     type = lib.types.enum [
@@ -9,6 +15,9 @@
   };
 
   config = {
+    mine.host = host;
+    networking.hostName = "ebm-${host}";
+
     # Use the systemd-boot EFI boot loader.
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;

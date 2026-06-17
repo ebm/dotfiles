@@ -18,26 +18,29 @@
       ...
     }:
     let
-      mkHost = host: nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/${host}/configuration.nix
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
-              users.ethan = import ./hosts/${host}/home.nix;
-            };
-          }
-          inputs.nixvim.nixosModules.nixvim
-        ];
-      };
+      mkHost =
+        host:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs host; };
+          modules = [
+            ./hosts/${host}/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs; };
+                users.ethan = import ./hosts/${host}/home.nix;
+              };
+            }
+            inputs.nixvim.nixosModules.nixvim
+          ];
+        };
     in
     {
       nixosConfigurations = nixpkgs.lib.genAttrs [ "desktop" "laptop" ] mkHost;
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
     };
 
 }
