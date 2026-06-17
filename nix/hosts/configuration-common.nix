@@ -54,7 +54,6 @@
     environment.systemPackages = with pkgs; [
       git
       waybar
-      swaybg
       unzip
     ];
 

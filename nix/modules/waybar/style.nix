@@ -54,7 +54,7 @@
                 padding: 0 10px;
             }
 
-      #cpu,
+            #cpu,
             #temperature,
             #custom-gpu-usage,
             #custom-gpu-temp,

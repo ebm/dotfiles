@@ -112,6 +112,8 @@ if __name__ == "__main__":
     folder.mkdir(exist_ok=True)
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
+    # Race condition possible: another process could create this path
+    # between the check and grim writing it.
     uid = str(uuid.uuid4())[:8]
     while (folder / f"{uid}.png").exists():
         uid = str(uuid.uuid4())[:8]
