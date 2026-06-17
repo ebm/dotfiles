@@ -1,10 +1,6 @@
-{ lib, config, ... }:
-let
-  cfg = config.mine.sway;
-in
+{ lib, config, osConfig, ... }:
 {
-  options.mine.sway.desktop = lib.mkEnableOption "desktop";
-  config = lib.mkIf cfg.desktop {
+  config = lib.mkIf (osConfig.mine.host == "desktop") {
     wayland.windowManager.sway = {
       config = {
         output = {

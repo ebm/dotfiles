@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, osConfig, ... }: {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -17,6 +17,7 @@
       vim = "nvim";
       sc = "screenshot";
       scs = "saved-screenshots";
+      nrs = "sudo nixos-rebuild switch --flake ~/dotfiles/nix#${osConfig.mine.host}";
     };
     plugins = [
       {

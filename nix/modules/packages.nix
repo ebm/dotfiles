@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     librewolf
-    stow
     tree-sitter
     claude-code
     clang
@@ -26,5 +25,8 @@
     slurp
     wl-clipboard
     sqlite
+    jetbrains.idea-oss
+    jdk
+    gimp
   ];
 }

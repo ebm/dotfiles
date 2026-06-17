@@ -17,7 +17,11 @@
     ./hardware-configuration.nix
   ];
 
+  mine.host = "desktop";
+
   networking.hostName = "ebm-desktop"; # Define your hostname.
+
+  programs.steam.enable = true;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;

@@ -6,6 +6,7 @@
     ../modules/waybar
     ../modules/foot.nix
     ../modules/screenshots
+    ../modules/intellij.nix
   ];
 
   home.pointerCursor = {

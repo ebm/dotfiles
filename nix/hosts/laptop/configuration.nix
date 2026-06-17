@@ -17,6 +17,8 @@
     ./hardware-configuration.nix
   ];
 
+  mine.host = "laptop";
+
   networking.hostName = "ebm-laptop"; # Define your hostname.
 
   # Enable CUPS to print documents.
