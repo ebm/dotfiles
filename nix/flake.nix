@@ -17,43 +17,27 @@
       nixpkgs,
       ...
     }:
-    {
-      nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/desktop/configuration.nix
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-              };
-              home-manager.users.ethan = ./hosts/desktop/home.nix;
-            }
-            inputs.nixvim.nixosModules.nixvim
-          ];
-        };
-        laptop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/laptop/configuration.nix
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-              };
-              home-manager.users.ethan = ./hosts/laptop/home.nix;
-            }
-            inputs.nixvim.nixosModules.nixvim
-          ];
-        };
+    let
+      mkHost = host: nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/${host}/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; };
+              users.ethan = import ./hosts/${host}/home.nix;
+            };
+          }
+          inputs.nixvim.nixosModules.nixvim
+        ];
       };
+    in
+    {
+      nixosConfigurations = nixpkgs.lib.genAttrs [ "desktop" "laptop" ] mkHost;
     };
 
 }
