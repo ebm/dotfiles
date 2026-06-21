@@ -29,6 +29,7 @@
           color: #a6adc8;
           background: transparent;
           border-radius: 8px;
+          box-shadow: none;
       }
 
       #workspaces button:hover {
