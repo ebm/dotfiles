@@ -10,7 +10,6 @@
         enable = true;
         settings = {
           options = {
-            theme = "auto";
             globalstatus = true;
             section_separators = {
               left = "";

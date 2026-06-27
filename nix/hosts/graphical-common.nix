@@ -24,6 +24,10 @@
 
   security.rtkit.enable = true;
 
+  programs.obs-studio = {
+    enable = true;
+  };
+
   environment.sessionVariables = {
     XCURSOR_THEME = "Adwaita";
     XCURSOR_SIZE = "24";
