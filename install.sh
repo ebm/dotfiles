@@ -4,12 +4,9 @@ set -euo pipefail
 
 read -rp "Host: " HOST
 read -rp "Username: " USERNAME
-read -rp "Croc code: " CODE
 
 DOTFILES="$HOME/dotfiles"
 FLAKE="$DOTFILES/nix"
-
-nix-shell -p croc --run "croc $CODE"
 
 sudo nix --experimental-features "nix-command flakes" \
   run github:nix-community/disko/latest -- \
