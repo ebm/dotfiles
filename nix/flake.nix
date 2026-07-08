@@ -9,6 +9,10 @@
       url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    }
   };
 
   outputs =
@@ -26,6 +30,7 @@
           modules = [
             ./hosts/${host}/configuration.nix
             inputs.home-manager.nixosModules.home-manager
+            inputs.disko.nixosModules.disko
             {
               home-manager = {
                 useGlobalPkgs = true;
