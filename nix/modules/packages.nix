@@ -1,6 +1,5 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
-    librewolf
     tree-sitter
     claude-code
     clang
@@ -17,16 +16,9 @@
     wget
     tldr
     python3
-    discord
-    imv
-    mpv
     btop
     gradle
-    slurp
-    wl-clipboard
     sqlite
-    jetbrains.idea-oss
     jdk
-    gimp
   ];
 }

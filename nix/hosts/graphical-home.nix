@@ -7,6 +7,8 @@
     ../modules/foot.nix
     ../modules/screenshots
     ../modules/intellij.nix
+    ../modules/librewolf.nix
+    ../modules/graphical-packages.nix
   ];
 
   home.pointerCursor = {
