@@ -20,5 +20,6 @@
     gradle
     sqlite
     jdk
+    tectonic
   ];
 }
