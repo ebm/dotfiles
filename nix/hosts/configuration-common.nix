@@ -79,6 +79,11 @@
     services.openssh.enable = true;
     services.tailscale.enable = true;
 
+    # After swayidle suspends, systemd hibernates once idle this long in RAM.
+    systemd.sleep.extraConfig = ''
+      HibernateDelaySec=1h
+    '';
+
     # Open ports in the firewall.
     # networking.firewall.allowedTCPPorts = [ ... ];
     # networking.firewall.allowedUDPPorts = [ ... ];
