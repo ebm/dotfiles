@@ -23,7 +23,7 @@ in
     config = {
       modifier = mod;
       terminal = "foot";
-      menu = "wmenu-run";
+      menu = "fuzzel";
 
       defaultWorkspace = "workspace number 1";
 
@@ -53,7 +53,7 @@ in
         "${mod}+Return" = "exec foot";
         "${mod}+b" = "exec librewolf";
         "${mod}+y" = "exec discord";
-        "${mod}+d" = "exec wmenu-run";
+        "${mod}+d" = "exec fuzzel";
 
         "${mod}+Shift+s" = "exec screenshot";
         "Print" = "exec screenshot --fullscreen";

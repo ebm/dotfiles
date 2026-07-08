@@ -5,6 +5,7 @@
     ../modules/sway
     ../modules/waybar
     ../modules/foot.nix
+    ../modules/fuzzel.nix
     ../modules/screenshots
     ../modules/intellij.nix
     ../modules/librewolf.nix
