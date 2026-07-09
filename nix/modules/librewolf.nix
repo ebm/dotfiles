@@ -3,7 +3,11 @@
 {
   programs.librewolf = {
     enable = true;
-    settings = { };
+    settings = {
+      "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+      "layout.css.prefers-color-scheme.content-override" = 0;
+      "ui.systemUsesDarkTheme" = 1;
+    };
     policies = {
       ExtensionSettings = {
         # uBlock Origin
