@@ -8,7 +8,7 @@
 
   imports = [
     ../modules/packages.nix
-    ../modules/nixvim.nix
+    ../modules/nixvim
     ../modules/zsh
     ../modules/fzf.nix
   ];
