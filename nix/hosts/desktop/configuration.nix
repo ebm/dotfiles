@@ -4,6 +4,7 @@
   imports = [
     ../configuration-common.nix
     ../graphical-common.nix
+    ./disko-config.nix
     ./hardware-configuration.nix
   ];
 
