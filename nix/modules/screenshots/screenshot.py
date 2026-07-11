@@ -1,0 +1,174 @@
+import sqlite3
+import subprocess
+import sys
+import os
+import uuid
+import json
+import multiprocessing
+
+from pathlib import Path
+from datetime import datetime
+
+
+def find_focused(node):
+    if node.get("focused"):
+        return node
+    for child in node.get("nodes", []) + node.get("floating_nodes", []):
+        result = find_focused(child)
+        if result:
+            return result
+    return None
+
+
+def get_focused_window():
+    result = subprocess.run(
+        ["swaymsg", "-t", "get_tree"], capture_output=True, text=True
+    )
+    tree = json.loads(result.stdout)
+    node = find_focused(tree)
+    if node:
+        app_id = (
+            node.get("app_id") or node.get("window_properties", {}).get("class") or ""
+        )
+        title = node.get("name") or ""
+        return app_id, title
+    return "", ""
+
+
+def make_engine():
+    # nice(19) sets the priority low so it doesn't affect foreground processes
+    os.nice(19)
+    os.environ.setdefault("OMP_NUM_THREADS", "1")
+    import rapidocr
+    from rapidocr import RapidOCR
+
+    # nixpkgs ships rapidocr with these bundled in site-packages/rapidocr/models;
+    # without explicit paths, rapidocr tries to download into the read-only store.
+    models = Path(rapidocr.__file__).parent / "models"
+    return RapidOCR(params={
+        "Global.log_level": "warning",
+        "Det.model_path": str(models / "ch_PP-OCRv4_det_infer.onnx"),
+        "Cls.model_path": str(models / "ch_ppocr_mobile_v2.0_cls_infer.onnx"),
+        "Rec.model_path": str(models / "ch_PP-OCRv4_rec_infer.onnx"),
+    })
+
+
+def ocr_image(engine, path):
+    result = engine(path)
+    texts = getattr(result, "txts", None) or ()
+    return "\n".join(t.strip() for t in texts if t and t.strip())
+
+
+def run_ocr(uid, path, db_path):
+    # Runs in a detached child process, so capture never waits.
+    ocr_text = ocr_image(make_engine(), path)
+    conn = sqlite3.connect(db_path)
+    conn.execute("UPDATE screenshots SET ocr = ? WHERE uid = ?", (ocr_text, uid))
+    conn.commit()
+    conn.close()
+
+
+def refresh_ocr(db_path, folder):
+    # Re-OCR every indexed screenshot with the current engine.
+    if not db_path.exists():
+        print("No screenshot database found.")
+        return
+
+    engine = make_engine()
+    conn = sqlite3.connect(str(db_path))
+    rows = conn.execute("SELECT uid FROM screenshots ORDER BY date DESC").fetchall()
+    total = len(rows)
+    if not total:
+        print("No screenshots to refresh.")
+        conn.close()
+        return
+    done = 0
+    for i, (uid,) in enumerate(rows, 1):
+        img = folder / f"{uid}.png"
+        if not img.exists():
+            print(f"[{i}/{total}] {uid} — image missing, skipped")
+            continue
+        ocr_text = ocr_image(engine, str(img))
+        conn.execute("UPDATE screenshots SET ocr = ? WHERE uid = ?", (ocr_text, uid))
+        conn.commit()
+        done += 1
+        print(f"[{i}/{total}] {uid} — {len(ocr_text.splitlines())} lines")
+
+    conn.close()
+    print(f"Refreshed OCR for {done}/{total} screenshot(s).")
+
+
+if __name__ == "__main__":
+    folder = Path.home() / "Pictures"
+    db_path = Path.home() / ".local" / "share" / "screenshots" / "screenshots.db"
+
+    if "--refresh-ocr" in sys.argv:
+        refresh_ocr(db_path, folder)
+        sys.exit()
+
+    clipboard = "--clip" in sys.argv
+    fullscreen = "--fullscreen" in sys.argv
+
+    folder.mkdir(exist_ok=True)
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Race condition possible: another process could create this path
+    # between the check and grim writing it.
+    uid = str(uuid.uuid4())[:8]
+    while (folder / f"{uid}.png").exists():
+        uid = str(uuid.uuid4())[:8]
+    path = str(folder / f"{uid}.png")
+
+    foreground, title = get_focused_window()
+
+    if clipboard:
+        # Prefer PNG, but accept any image/* type the clipboard offers.
+        types = subprocess.run(
+            ["wl-paste", "--list-types"], capture_output=True, text=True
+        ).stdout.split()
+        img_type = (
+            "image/png"
+            if "image/png" in types
+            else next((t for t in types if t.startswith("image/")), None)
+        )
+        if img_type is None:
+            sys.exit("No image on the clipboard.")
+        with open(path, "wb") as f:
+            subprocess.run(["wl-paste", "--type", img_type], stdout=f, check=True)
+        title = "Unknown"
+
+        print("Image copied")
+    else:
+        if fullscreen:
+            subprocess.run(["grim", path])
+        else:
+            result = subprocess.run(["slurp"], capture_output=True, text=True)
+            selection = result.stdout.strip()
+            if result.returncode != 0 or not selection:
+                sys.exit(0)
+            subprocess.run(["grim", "-g", selection, path])
+        with open(path, "rb") as f:
+            subprocess.run(["wl-copy", "--type", "image/png"], stdin=f)
+
+    db_date = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+
+    conn = sqlite3.connect(str(db_path))
+    conn.execute(
+        """CREATE TABLE IF NOT EXISTS screenshots (
+        uid TEXT PRIMARY KEY,
+        date TEXT,
+        foreground TEXT,
+        title TEXT,
+        ocr TEXT
+    )"""
+    )
+    conn.commit()
+    conn.execute(
+        "INSERT INTO screenshots (uid, date, foreground, title, ocr) VALUES (?, ?, ?, ?, ?)",
+        (uid, db_date, foreground, title, ""),
+    )
+    conn.commit()
+    conn.close()
+
+    p = multiprocessing.Process(target=run_ocr, args=(uid, path, str(db_path)))
+    p.start()
