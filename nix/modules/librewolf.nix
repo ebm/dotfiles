@@ -3,10 +3,12 @@
 {
   programs.librewolf = {
     enable = true;
-    settings = {
-      "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-      "layout.css.prefers-color-scheme.content-override" = 0;
-      "ui.systemUsesDarkTheme" = 1;
+    profiles.default = {
+      settings = {
+        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+        "layout.css.prefers-color-scheme.content-override" = 0;
+        "ui.systemUsesDarkTheme" = 1;
+      };
     };
     policies = {
       ExtensionSettings = {
