@@ -5,6 +5,7 @@
     ../configuration-common.nix
     ../graphical-common.nix
     ../../modules/nvidia.nix
+    ../../modules/moza.nix
     ./disko-config.nix
     ./hardware-configuration.nix
   ];
