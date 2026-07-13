@@ -1,4 +1,8 @@
 { pkgs, ... }: {
+  imports = [
+    ../modules/rnnoise.nix
+  ];
+
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
   ];
