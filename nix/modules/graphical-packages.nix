@@ -7,5 +7,6 @@
     jetbrains.idea-oss
     slurp
     wl-clipboard
+    pulsemixer
   ];
 }

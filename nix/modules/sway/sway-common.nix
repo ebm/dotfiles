@@ -177,7 +177,7 @@ in
 
       startup = [
         {
-          command = "swayidle -w timeout 60 'pgrep -x swaylock && swaymsg \"output * power off\"' resume 'swaymsg \"output * power on\"' timeout 300 'pgrep -x swaylock && systemctl suspend-then-hibernate' before-sleep '${swaylockcmd} -f'";
+          command = "swayidle -w timeout 60 'pgrep swaylock && swaymsg \"output * power off\"' resume 'swaymsg \"output * power on\"' timeout 300 'pgrep swaylock && systemctl suspend-then-hibernate' before-sleep '${swaylockcmd} -f'";
         }
       ];
     };
