@@ -84,6 +84,7 @@ in
             "custom/gpu-temp"
             "disk"
             "memory"
+            "custom/mic"
             "pulseaudio"
             "network"
           ]
@@ -146,9 +147,23 @@ in
             tooltip-format = "{ifname} — {ipaddr} via {gwaddr}";
           };
 
+          "custom/mic" = {
+            exec = ''
+              if pactl get-source-mute @DEFAULT_SOURCE@ | grep -q yes; then
+                echo '{"text":"󰍭","tooltip":"Microphone muted","class":"muted"}'
+              else
+                vol=$(pactl get-source-volume @DEFAULT_SOURCE@ | grep -o '[0-9]*%' | head -1)
+                echo "{\"text\":\"󰍬 $vol\",\"tooltip\":\"Microphone live\",\"class\":\"live\"}"
+              fi
+            '';
+            return-type = "json";
+            interval = 1;
+            # on-click = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          };
+
           pulseaudio = {
             format = "{icon} {volume}%";
-            format-muted = "󰝟 muted";
+            format-muted = "󰝟";
             format-icons = {
               headphone = "󰋋";
               default = [
@@ -157,7 +172,7 @@ in
                 "󰕾"
               ];
             };
-            on-click = "pavucontrol";
+            # on-click = "pavucontrol";
             scroll-step = 5;
           };
 

@@ -61,6 +61,7 @@
       #custom-gpu-temp,
       #disk,
       #memory,
+      #custom-mic,
       #pulseaudio,
       #network,
       #battery,
@@ -91,10 +92,6 @@
 
       #battery.warning {
           color: #f9e2af;
-      }
-
-      #pulseaudio.muted {
-          color: #585b70;
       }
 
       #tray > .passive {
