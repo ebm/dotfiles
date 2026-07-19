@@ -1,9 +1,13 @@
+{ pkgs, ... }:
+
 {
   programs.foot = {
     enable = true;
     settings = {
       main = {
         font = "monospace:size=14";
+        # Use `tmux new-session -A -s main` instead to share one session.
+        shell = "${pkgs.tmux}/bin/tmux new-session -A -s main";
       };
       colors-dark = {
         alpha = "1.0";
