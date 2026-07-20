@@ -2,6 +2,7 @@
   pkgs,
   lib,
   host,
+  inputs,
   ...
 }:
 {
@@ -17,6 +18,8 @@
   config = {
     mine.host = host;
     networking.hostName = "ebm-${host}";
+
+    system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
     # Use the systemd-boot EFI boot loader.
     boot.loader.systemd-boot.enable = true;
