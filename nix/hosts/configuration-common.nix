@@ -30,8 +30,10 @@
     # Configure network connections interactively with nmcli or nmtui.
     networking.networkmanager.enable = true;
 
-    # Set your time zone.
-    time.timeZone = "America/New_York";
+    # Manual time zones:
+    # time.timeZone = "America/New_York";
+    # Automatic time zones:
+    services.tzupdate.enable = true;
 
     # Configure network proxy if necessary
     # networking.proxy.default = "http://user:password@proxy:port/";
