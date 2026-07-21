@@ -85,7 +85,7 @@
     };
     gitsigns.enable = true;
     markview.enable = true;
-    neoscroll.enable = true;
+    #neoscroll.enable = true;
     toggleterm = {
       enable = true;
       settings = {
