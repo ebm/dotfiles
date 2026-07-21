@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   programs.foot = {
@@ -6,8 +6,12 @@
     settings = {
       main = {
         font = "monospace:size=14";
-        # Use `tmux new-session -A -s main` instead to share one session.
-        shell = "${pkgs.tmux}/bin/tmux new-session -A -s main";
+      };
+      # ctrl+shift+g dumps the scrollback into a throwaway nvim window,
+      # giving real vim motions/search/visual-select over terminal history.
+      # Native scrolling (shift+pageup) and search (ctrl+shift+r) still apply.
+      key-bindings = {
+        pipe-scrollback = ''[sh -c "f=$(mktemp) && cat - > $f && foot nvim + $f; rm -f $f"] Control+Space'';
       };
       colors-dark = {
         alpha = "1.0";
