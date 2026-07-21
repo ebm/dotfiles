@@ -9,7 +9,7 @@
 
   programs.nixvim = {
     enable = true;
-    useGlobalPackages = true;
+    nixpkgs.useGlobalPackages = true;
     defaultEditor = true;
     globals.mapleader = " ";
     colorschemes.catppuccin.enable = true;
