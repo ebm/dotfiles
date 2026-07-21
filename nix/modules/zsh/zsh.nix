@@ -38,7 +38,11 @@
     ];
 
     initContent = ''
-      # Colored man pages
+      export NVIMPAGER_NVIM="$(command -v nvim)"
+      export PAGER="nvimpager"
+      export MANPAGER="nvimpager"
+
+      # Colored man pages (LESS fallback when a plain-less pager is used)
       export LESS_TERMCAP_md="$(tput bold 2>/dev/null; tput setaf 2 2>/dev/null)"
       export LESS_TERMCAP_me="$(tput sgr0 2>/dev/null)"
 
@@ -52,4 +56,8 @@
       fi
     '';
   };
+
+  xdg.configFile."nvimpager/init.lua".text = ''
+    vim.cmd.colorscheme("catppuccin")
+  '';
 }

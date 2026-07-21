@@ -21,5 +21,6 @@
     sqlite
     jdk
     tectonic
+    nvimpager
   ];
 }

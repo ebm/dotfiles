@@ -7,11 +7,8 @@
       main = {
         font = "monospace:size=14";
       };
-      # ctrl+shift+g dumps the scrollback into a throwaway nvim window,
-      # giving real vim motions/search/visual-select over terminal history.
-      # Native scrolling (shift+pageup) and search (ctrl+shift+r) still apply.
       key-bindings = {
-        pipe-scrollback = ''[sh -c "f=$(mktemp) && cat - > $f && foot nvim + $f; rm -f $f"] Control+Space'';
+        pipe-scrollback = ''[sh -c "f=$(mktemp) && cat - > $f && foot nvim + $f; rm -f $f"] Control+space'';
       };
       colors-dark = {
         alpha = "1.0";
