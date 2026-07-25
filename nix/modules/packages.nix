@@ -23,5 +23,6 @@
     tectonic
     nvimpager
     fastfetch
+    croc
   ];
 }
