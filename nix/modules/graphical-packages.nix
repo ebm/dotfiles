@@ -8,5 +8,6 @@
     slurp
     wl-clipboard
     pulsemixer
+    firefox
   ];
 }
