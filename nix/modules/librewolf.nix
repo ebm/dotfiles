@@ -1,6 +1,13 @@
 { ... }:
 
 {
+  xdg.mimeApps.defaultApplications = {
+    "x-scheme-handler/http" = "librewolf.desktop";
+    "x-scheme-handler/https" = "librewolf.desktop";
+    "text/html" = "librewolf.desktop";
+    "application/xhtml+xml" = "librewolf.desktop";
+  };
+
   programs.librewolf = {
     enable = true;
     profiles.default = {

@@ -12,6 +12,9 @@
     ../modules/graphical-packages.nix
   ];
 
+  # Manages defaults
+  xdg.mimeApps.enable = true;
+
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
