@@ -22,5 +22,6 @@
     jdk
     tectonic
     nvimpager
+    fastfetch
   ];
 }
