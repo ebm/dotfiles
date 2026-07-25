@@ -14,6 +14,7 @@
     updatetime = 1000;
     splitright = true;
     splitbelow = true;
+    cursorline = true;
     list = true;
     listchars = {
       tab = "» ";
