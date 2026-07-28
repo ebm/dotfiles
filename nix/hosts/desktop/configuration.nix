@@ -16,4 +16,6 @@
   boot.kernelParams = [ "hid_apple.fnmode=2" ];
 
   programs.steam.enable = true;
+
+  time.hardwareClockInLocalTime = true;
 }
