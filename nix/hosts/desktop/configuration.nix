@@ -16,10 +16,4 @@
   boot.kernelParams = [ "hid_apple.fnmode=2" ];
 
   programs.steam.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    lutris
-    # wineWowPackages.staging
-    # winetricks
-  ];
 }
