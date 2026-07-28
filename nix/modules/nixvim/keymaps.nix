@@ -116,5 +116,11 @@
       action = "<cmd>Telescope buffers<cr>";
       options.desc = "Find existing buffers";
     }
+    {
+      mode = "n";
+      key = "<leader>vw";
+      action = "<cmd>set wrap!<cr>";
+      options.desc = "Word wrap enable/disable";
+    }
   ];
 }
