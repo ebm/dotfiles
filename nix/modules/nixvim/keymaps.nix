@@ -118,7 +118,7 @@
     }
     {
       mode = "n";
-      key = "<leader>vw";
+      key = "<leader>v";
       action = "<cmd>set wrap!<cr>";
       options.desc = "Word wrap enable/disable";
     }
