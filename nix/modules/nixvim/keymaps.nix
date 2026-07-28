@@ -118,9 +118,15 @@
     }
     {
       mode = "n";
-      key = "<leader>v";
+      key = "<leader>w";
       action = "<cmd>set wrap!<cr>";
       options.desc = "Word wrap enable/disable";
+    }
+    {
+      mode = "n";
+      key = "<leader>m";
+      action = "<cmd>Markview Toggle<cr>";
+      options.desc = "Markview enable/disable";
     }
   ];
 }
