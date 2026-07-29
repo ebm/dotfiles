@@ -9,6 +9,7 @@
     ../modules/screenshots
     ../modules/intellij.nix
     ../modules/librewolf.nix
+    ../modules/imv.nix
     ../modules/pulsemixer.nix
     ../modules/graphical-packages.nix
   ];
