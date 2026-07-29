@@ -7,7 +7,9 @@
 
 let
   mod = "Mod4";
-  wallpaper = ./wallpapers/zuko_vs_azula.jpg;
+  #wallpaper = ./wallpapers/zuko_vs_azula.jpg;
+  #wallpaper = ./wallpapers/zuko_wallpaper_alone.jpg;
+  wallpaper = ./wallpapers/chill.jpg;
   swaylockcmd = "swaylock --image ${wallpaper} --scaling fill";
 in
 {
