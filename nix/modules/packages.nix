@@ -25,5 +25,6 @@
     fastfetch
     croc
     ffmpeg-headless
+    yazi
   ];
 }
