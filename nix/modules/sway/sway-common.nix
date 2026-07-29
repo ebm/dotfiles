@@ -7,14 +7,12 @@
 
 let
   mod = "Mod4";
-  #wallpaper = ./wallpapers/zuko_vs_azula.jpg;
-  #wallpaper = ./wallpapers/zuko_wallpaper_alone.jpg;
-  wallpaper = ./wallpapers/chill.jpg;
-  swaylockcmd = "swaylock --image ${wallpaper} --scaling fill";
+  wallpaperLink = config.mine.wallpaperLink;
+  swaylockcmd = "swaylock --image ${wallpaperLink} --scaling fill";
 in
 {
   xdg.configFile."swaylock/config".text = ''
-    image=${wallpaper}
+    image=${wallpaperLink}
     scaling=fill
     ignore-empty-password
     show-failed-attempts
@@ -31,7 +29,9 @@ in
 
       output = {
         "*" = {
-          bg = "${wallpaper} fill";
+          # Fallback color also lets the config check pass in the build sandbox,
+          # where the link does not exist yet.
+          bg = "${wallpaperLink} fill #1e1e2e";
         };
       };
 
@@ -57,6 +57,7 @@ in
         "${mod}+y" = "exec discord";
         "${mod}+d" = "exec fuzzel";
         "${mod}+a" = "exec foot pulsemixer";
+        "${mod}+w" = "exec wallpaper";
 
         "${mod}+Shift+s" = "exec screenshot";
         "Print" = "exec screenshot --fullscreen";
@@ -116,7 +117,6 @@ in
 
         "${mod}+r" = "mode resize";
         "${mod}+s" = null;
-        "${mod}+w" = null;
         "${mod}+e" = null;
       };
 
