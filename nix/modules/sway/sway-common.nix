@@ -56,6 +56,7 @@ in
         "${mod}+b" = "exec librewolf";
         "${mod}+y" = "exec discord";
         "${mod}+d" = "exec fuzzel";
+        "${mod}+a" = "exec foot pulsemixer";
 
         "${mod}+Shift+s" = "exec screenshot";
         "Print" = "exec screenshot --fullscreen";
@@ -67,7 +68,7 @@ in
         "${mod}+v" = "splitv";
         "${mod}+Shift+space" = "floating toggle";
         "${mod}+space" = "focus mode_toggle";
-        "${mod}+a" = "focus parent";
+        # "${mod}+a" = "focus parent";
         "${mod}+Shift+minus" = "move scratchpad";
         "${mod}+minus" = "scratchpad show";
 
