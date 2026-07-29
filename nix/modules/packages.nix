@@ -24,5 +24,6 @@
     nvimpager
     fastfetch
     croc
+    ffmpeg-headless
   ];
 }
