@@ -99,5 +99,8 @@
     # accidentally delete configuration.nix.
     # system.copySystemConfiguration = true;
 
+    virtualisation.containers.enable = true;
+    virtualisation.podman.enable = true;
+
   };
 }

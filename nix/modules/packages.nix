@@ -26,6 +26,5 @@
     croc
     ffmpeg-headless
     yazi
-    podman
   ];
 }
