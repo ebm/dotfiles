@@ -40,6 +40,7 @@
         };
       };
     };
+    registers.enable = true;
     telescope.enable = true;
     web-devicons.enable = true;
     treesitter.enable = true;
