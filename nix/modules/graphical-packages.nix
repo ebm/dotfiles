@@ -3,7 +3,7 @@
     discord
     mpv
     gimp
-    jetbrains.idea-oss
+    jetbrains.idea
     slurp
     wl-clipboard
     firefox
