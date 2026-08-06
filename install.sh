@@ -14,6 +14,8 @@ sudo nix --experimental-features "nix-command flakes" \
 
 sudo nixos-generate-config --no-filesystems --root /mnt --dir "$FLAKE/hosts/$HOST"
 
+git -C "$DOTFILES" add "nix/hosts/$HOST/hardware-configuration.nix"
+
 sudo nixos-install --flake "$FLAKE#$HOST"
 
 sudo nixos-enter --root /mnt --command "passwd $USERNAME"
