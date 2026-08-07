@@ -11,6 +11,8 @@
   };
   users.groups.minecraft = {};
 
+  users.users.ethan.extraGroups = [ "minecraft" ];
+
   systemd.services.rlcraft = {
     description = "RLCraft Minecraft Server";
     wantedBy = [ "multi-user.target" ];
