@@ -8,6 +8,7 @@
     group = "minecraft";
     home = "/opt/minecraft/rlcraft";
     createHome = true;
+    homeMode = "770";
   };
   users.groups.minecraft = {};
 
@@ -17,6 +18,7 @@
     description = "RLCraft Minecraft Server";
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
+    restartIfChanged = false;
 
     serviceConfig = {
       User = "minecraft";
@@ -37,7 +39,6 @@
       RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
       RestrictNamespaces = true;
       LockPersonality = true;
-      MemoryDenyWriteExecute = true;
     };
   };
 
