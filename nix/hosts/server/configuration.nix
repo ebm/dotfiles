@@ -5,7 +5,7 @@
     ../configuration-common.nix
     ./hardware-configuration.nix
     ./disko-config.nix
-    ./rlcraft.nix
+    ./minecraft-server.nix
     ./duckdns.nix
   ];
 
