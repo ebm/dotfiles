@@ -40,6 +40,7 @@
         };
       };
     };
+    vim-be-good.enable = true;
     which-key.enable = true;
     telescope.enable = true;
     web-devicons.enable = true;
