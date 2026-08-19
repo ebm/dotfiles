@@ -7,5 +7,6 @@
     slurp
     wl-clipboard
     firefox
+    kdePackages.kdenlive
   ];
 }
