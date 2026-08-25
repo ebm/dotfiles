@@ -25,7 +25,6 @@
     fastfetch
     croc
     ffmpeg-headless
-    yazi
     podman-compose
   ];
 }

@@ -11,6 +11,7 @@
     ../modules/nixvim
     ../modules/zsh
     ../modules/fzf.nix
+    ../modules/yazi.nix
   ];
 
   # This value determines the Home Manager release that your
