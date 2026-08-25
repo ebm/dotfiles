@@ -7,6 +7,10 @@
 }:
 {
 
+  imports = [
+    ../modules/unstable.nix
+  ];
+
   options.mine.host = lib.mkOption {
     type = lib.types.enum [
       "desktop"

@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     tree-sitter
-    claude-code
+    unstable.claude-code
     clang
     lua-language-server
     pyright
