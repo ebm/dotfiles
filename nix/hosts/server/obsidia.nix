@@ -5,7 +5,7 @@ let
 
   compose = pkgs.writeShellScript "obsidia-compose" ''
     exec ${pkgs.podman-compose}/bin/podman-compose \
-      --env-file ${projectDir}/.env.staging \
+      --env-file ${projectDir}/.staging.env \
       -f ${projectDir}/docker-compose.yml \
       -f ${projectDir}/docker-compose.staging.yml \
       -f ${projectDir}/docker-compose.host.yml \
