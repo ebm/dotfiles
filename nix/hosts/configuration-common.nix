@@ -90,7 +90,7 @@
     # Closing the lid suspends, then hibernates after HibernateDelaySec in RAM.
     services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
     # After swayidle suspends, systemd hibernates once idle this long in RAM.
-    systemd.sleep.settings.Sleep.HibernateDelaySec = "30m";
+    systemd.sleep.settings.Sleep.HibernateDelaySec = "1h";
 
     # Open ports in the firewall.
     # networking.firewall.allowedTCPPorts = [ ... ];
