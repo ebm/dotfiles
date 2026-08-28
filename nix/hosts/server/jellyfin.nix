@@ -34,6 +34,8 @@ in
     forceEncodingConfig = true;
 
     transcoding = {
+      enableToneMapping = false;
+
       hardwareDecodingCodecs = {
         h264 = true;
         hevc = true;
