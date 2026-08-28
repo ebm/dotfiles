@@ -9,5 +9,10 @@
     ./disko-config.nix
   ];
 
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp1s0";
+  };
+
   system.stateVersion = "26.05";
 }
