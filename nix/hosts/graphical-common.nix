@@ -17,6 +17,9 @@
   #   wmenu
   programs.sway.enable = true;
 
+  # After swayidle suspends, systemd hibernates once idle this long in RAM.
+  systemd.sleep.settings.Sleep.HibernateDelaySec = "1h";
+
   services.greetd = {
     enable = true;
     settings = {
