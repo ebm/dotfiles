@@ -1,0 +1,9 @@
+keys:
+  - &ethan age1sc6gqcgqz0j89cu3rdmyarz90t9m5usn4fr3rk6d2xpyvr7yr5cqmcjge0
+  - &ebm-server age1g60f52zy23vsg8kfjlvwsr5y2zhy64ugn5vmjq9ea68s6apjeuesvn5zc4
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *ethan
+      - *ebm-server

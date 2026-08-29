@@ -102,5 +102,7 @@
     virtualisation.containers.enable = true;
     virtualisation.podman.enable = true;
 
+    sops.defaultSopsFile = ../secrets/secrets.yaml;
+
   };
 }
