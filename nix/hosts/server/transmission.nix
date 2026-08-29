@@ -24,7 +24,8 @@
 # Transmission's chroot, so any resolver socket living there is reachable from
 # inside the namespace. nsncd is the only one today and it is cut off below,
 # but enabling services.resolved would silently add
-# /run/systemd/resolve/io.systemd.Resolve as a second path past the tunnel.
+# /run/systemd/resolve/io.systemd.Resolve as a second path past the tunnel,
+# which would need the same treatment.
 
 let
   mediaDir = "/srv/media";
@@ -237,12 +238,18 @@ in
       # path, so this one is applied after /etc regardless of list order.
       BindReadOnlyPaths = lib.mkAfter [
         "/etc/netns/${namespace}/resolv.conf:/etc/resolv.conf"
-      ];
 
-      # nsncd runs in the init namespace and would resolve names there --
-      # a DNS leak straight past the tunnel. Cutting off its socket forces
-      # glibc to resolve in-process against the resolv.conf bound above.
-      InaccessiblePaths = [ "-/run/nscd" ];
+        # nsncd runs in the init namespace and resolves names there -- a DNS
+        # leak straight past the tunnel. An empty directory over its socket
+        # forces glibc to resolve in-process against the resolv.conf above.
+        #
+        # This has to be a bind and not InaccessiblePaths=: the module rbinds
+        # the host's /run into the chroot, the mask did not survive that bind,
+        # and the leading "-" made systemd swallow the failure silently. Using
+        # the same option as the /run bind keeps both under one ordering pass,
+        # and systemd sorts by path, so /run lands before /run/nscd.
+        "${pkgs.emptyDirectory}:/run/nscd"
+      ];
     };
   };
 
