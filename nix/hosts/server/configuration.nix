@@ -10,6 +10,7 @@
     ./cloudflared.nix
     ./obsidia.nix
     ./jellyfin.nix
+    #./transmission.nix
   ];
 
   system.stateVersion = "26.05";
