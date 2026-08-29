@@ -10,10 +10,6 @@ in
     enable = true;
     domains = [ domain ];
 
-    tokenFile = "/run/credentials/duckdns.service/token";
+    tokenFile = config.sops.secrets.duckdns-token.path;
   };
-
-  systemd.services.duckdns.serviceConfig.LoadCredential = [
-    "token:${config.sops.secrets.duckdns-token.path}"
-  ];
 }

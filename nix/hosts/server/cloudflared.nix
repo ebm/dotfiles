@@ -12,7 +12,7 @@ in
     enable = true;
 
     tunnels.${tunnelId} = {
-      credentialsFile = "/run/credentials/cloudflared-tunnel-${tunnelId}.service/tunnel.json";
+      credentialsFile = config.sops.secrets.cloudflared-tunnel.path;
 
       ingress = {
         "${domain}" = "http://127.0.0.1:8080";
@@ -25,9 +25,5 @@ in
       default = "http_status:404";
     };
   };
-
-  systemd.services."cloudflared-tunnel-${tunnelId}".serviceConfig.LoadCredential = [
-    "tunnel.json:${config.sops.secrets.cloudflared-tunnel.path}"
-  ];
 
 }
