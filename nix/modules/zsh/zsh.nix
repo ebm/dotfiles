@@ -41,6 +41,9 @@
       export NVIMPAGER_NVIM="$(command -v nvim)"
       export PAGER="nvimpager"
       export MANPAGER="nvimpager"
+      # systemd ignores $PAGER entirely unless SYSTEMD_PAGERSECURE is set;
+      # see the note under $SYSTEMD_PAGERSECURE in systemd(1).
+      export SYSTEMD_PAGERSECURE=0
 
       # Colored man pages (LESS fallback when a plain-less pager is used)
       export LESS_TERMCAP_md="$(tput bold 2>/dev/null; tput setaf 2 2>/dev/null)"
@@ -58,6 +61,16 @@
   };
 
   xdg.configFile."nvimpager/init.lua".text = ''
+    -- All nixvim plugins live in pack/*/start, so they get sourced on every
+    -- pager launch even though NVIM_APPNAME isolates the config. Plugin scripts
+    -- load after init.lua, so this still prevents them (37ms -> 8ms).
+    vim.o.loadplugins = false
+
     vim.cmd.colorscheme("catppuccin")
+    vim.o.scrolloff = 100
+    nvimpager.maps = false
+
+    vim.g.mapleader = " "
+    vim.keymap.set("n", "<leader>w", "<cmd>set wrap!<cr>", { desc = "Word wrap enable/disable" })
   '';
 }

@@ -9,6 +9,7 @@
 
   imports = [
     ../modules/unstable.nix
+    ../modules/nvimpager.nix
   ];
 
   options.mine.host = lib.mkOption {
