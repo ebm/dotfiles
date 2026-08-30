@@ -16,7 +16,6 @@
     wget
     tldr
     python3
-    btop
     gradle
     sqlite
     jdk

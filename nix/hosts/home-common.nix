@@ -11,6 +11,7 @@
     ../modules/nixvim
     ../modules/zsh
     ../modules/fzf.nix
+    ../modules/btop.nix
     ../modules/yazi.nix
   ];
 
