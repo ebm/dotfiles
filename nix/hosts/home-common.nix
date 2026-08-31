@@ -13,6 +13,7 @@
     ../modules/fzf.nix
     ../modules/btop.nix
     ../modules/yazi.nix
+    ../modules/claude.nix
   ];
 
   # This value determines the Home Manager release that your
