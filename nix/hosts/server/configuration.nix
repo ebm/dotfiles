@@ -10,6 +10,7 @@
     ./cloudflared.nix
     ./obsidia.nix
     ./jellyfin.nix
+    ./medialink.nix
     ./transmission.nix
   ];
 
