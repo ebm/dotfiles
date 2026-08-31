@@ -40,6 +40,8 @@
         # holds unfinished torrents in incomplete/, so anything sitting in
         # downloads/ is done and safe to link.
 
+        umask 002
+
         downloads=/srv/media/downloads
         video='.*\.(mkv|mp4|avi|m4v|mov|webm)'
 
