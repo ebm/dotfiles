@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ../modules/rnnoise.nix
+    ../modules/screencast-chooser.nix
   ];
 
   environment.systemPackages = with pkgs; [
