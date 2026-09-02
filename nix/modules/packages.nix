@@ -25,5 +25,8 @@
     croc
     ffmpeg-headless
     podman-compose
+    sops
+    age
+    ssh-to-age
   ];
 }
