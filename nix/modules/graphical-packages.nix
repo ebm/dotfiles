@@ -8,5 +8,6 @@
     wl-clipboard
     firefox
     kdePackages.kdenlive
+    streamlink
   ];
 }
