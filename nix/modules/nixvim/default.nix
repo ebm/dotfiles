@@ -13,8 +13,9 @@
     defaultEditor = true;
     globals.mapleader = " ";
     colorschemes.catppuccin.enable = true;
-    diagnostics = {
-      virtual_text = true;
+    diagnostic.settings = {
+      virtual_text = false;
+      virtual_lines.current_line = true;
     };
   };
 }
