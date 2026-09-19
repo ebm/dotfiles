@@ -11,5 +11,6 @@ in
   home.packages = [
     (mkScript "screenshot" (with pkgs.python3Packages; [ rapidocr ]))
     (mkScript "saved-screenshots" [ ])
+    pkgs.chafa
   ];
 }

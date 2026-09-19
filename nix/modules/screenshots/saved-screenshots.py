@@ -62,9 +62,6 @@ if not lines:
     print("No screenshots found.")
     sys.exit()
 
-first_uid = lines[0].split()[0]
-imv = subprocess.Popen(["imv", str(pics / f"{first_uid}.png")])
-
 img = f"{pics}/{{1}}.png"
 ocr_sql = "SELECT ocr FROM screenshots WHERE uid={1}"
 preview_sql = (
@@ -72,21 +69,31 @@ preview_sql = (
     "FROM screenshots WHERE uid={1}"
 )
 
+image_cmd = "chafa -f sixel -s ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} " + img
+preview = (
+    f'if [ "$FZF_PREVIEW_LABEL" = text ]; then sqlite3 {db_path} "{preview_sql}"; '
+    f"else {image_cmd}; fi"
+)
+
+window = "up,65%"
+to_text = f"change-preview-label(text)+change-preview-window({window},wrap)+refresh-preview"
+to_image = f"change-preview-label(image)+change-preview-window({window})+refresh-preview"
+
 subprocess.run(
     [
         "fzf",
         "--no-hscroll",
-        f'--preview=sqlite3 {db_path} "{preview_sql}"',
-        "--preview-window=down:10:wrap",
-        f"--bind=focus:execute-silent(imv-msg {imv.pid} open {img} && imv-msg {imv.pid} goto -1)",
-        f'--bind=enter:execute-silent(sqlite3 {db_path} "{ocr_sql}" | wl-copy)',
-        f'--bind=alt-enter:execute-silent(wl-copy --type image/png < {img})',
-        f"--bind=ctrl-y:execute-silent(wl-copy -n {img})",
+        f"--preview={preview}",
+        "--preview-label=image",
+        f"--preview-window={window}",
+        f'--bind=ctrl-o:transform:[ "$FZF_PREVIEW_LABEL" = image ] && echo "{to_text}" || echo "{to_image}"',
+        f"--bind=enter:execute-silent(imv {img} >/dev/null 2>&1 &)",
+        f"--bind=alt-enter:execute-silent(wl-copy --type image/png < {img})",
+        f'--bind=ctrl-y:execute-silent(sqlite3 {db_path} "{ocr_sql}" | wl-copy)',
+        f"--bind=ctrl-i:execute-silent(wl-copy -n {img})",
         "--bind=ctrl-j:preview-down,ctrl-k:preview-up",
-        f'--bind=ctrl-bspace:execute-silent(rm {img} && sqlite3 {db_path} "DELETE FROM screenshots WHERE uid={{1}}")+reload({self_path} --list)+refresh-preview+down',
+        f'--bind=ctrl-delete:execute-silent(rm {img} && sqlite3 {db_path} "DELETE FROM screenshots WHERE uid={{1}}")+reload({self_path} --list)+refresh-preview+down',
     ],
     input="\n".join(lines),
     text=True,
 )
-
-imv.terminate()
